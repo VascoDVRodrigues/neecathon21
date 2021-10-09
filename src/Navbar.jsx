@@ -8,6 +8,7 @@ export default function App() {
         <Row>
           <Col><Button variant="info">Buy</Button></Col>
           <Col><Button variant="primary">Buy</Button></Col>
+          <Col><Button variant="info">Buy</Button></Col>
         </Row>
       </Container>
     
