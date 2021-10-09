@@ -5,7 +5,7 @@ function Home() {
     return (
         <Container>
             <Row className="text-center mb-4">
-                <Col><h1 className="display-4 font-weight-normal text-light" >Home</h1></Col>
+                <Col><h1 className="display-4 font-weight-normal" >Home</h1></Col>
             </Row>
         </Container>       
     );
