@@ -1,16 +1,11 @@
 import './index.css'
-import { Button , Container, Row, Col} from 'react-bootstrap'
 
+import React from 'react'
+import {Button, Col, Container, Row} from 'react-bootstrap'
+
+import HomePage from './pages/HomePage'
 export default function App() {
-  return (
-    <div>
-      <Container>
-        <Row>
-          <Col><Button variant="info">Buy</Button></Col>
-          <Col><Button variant="primary">Buy</Button></Col>
-        </Row>
-      </Container>
-    
-    </div>
-  )
+  return (<div>
+    <HomePage />
+    </div>)
 }
