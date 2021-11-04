@@ -1,0 +1,28 @@
+export default{
+    "cells": [
+        {"id":0, "name":"start" },
+        {"id":1, "name":"resistencia"},
+        {"id":2, "name":"Sensor"},
+        {"id":3, "name":"Arduino"},
+        {"id":4, "name":"raspberry"},
+        {"id":5, "name":"Arduino"},
+        {"id":6, "name":"Prisão"},
+        {"id":7, "name":"randshit"},
+        {"id":8, "name":"randshit"},
+        {"id":9, "name":"randshit"},
+        {"id":10, "name":"randshit"},
+        {"id":11, "name":"randshit"},
+        {"id":12, "name":"NADA"},
+        {"id":13, "name":"randshit"},
+        {"id":14, "name":"randshit"},
+        {"id":15, "name":"randshit"},
+        {"id":16, "name":"randshit"},
+        {"id":17, "name":"randshit"},
+        {"id":18, "name":"Prisão"},
+        {"id":19, "name":"randshit"},
+        {"id":20, "name":"randshit"},
+        {"id":21, "name":"randshit"},
+        {"id":22, "name":"randshit"},
+        {"id":23, "name":"randshit"}
+    ]
+}

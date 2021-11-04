@@ -19,22 +19,15 @@ function ShopItem(props) {
             <Card.Img variant="top" src={props.img} style={styles.cardImage}/>
             <Card.Body>
                 <Card.Title>{props.title}</Card.Title>
-                {/* <Card.Text>
-                {props.description}
-                </Card.Text> */}
                 <Row> 
                     <Col>
-                        <Button variant="primary">Add to Cart</Button>
+                        <Button variant="primary" onClick = {()=>props.action(props.id)}>Add to Cart</Button>
                     </Col>
-                    {/* <Col>
-
-                        {props.price.toFixed(2)+" €"} 
-                    </Col> */}
                 </Row>
             </Card.Body>
             <ListGroup variant="flush">
-                    <ListGroup.Item>{props.price.toFixed(2)+" €"}</ListGroup.Item>
-                </ListGroup>
+                <ListGroup.Item>{props.price.toFixed(2)+" €"}</ListGroup.Item>
+            </ListGroup>
         </Card>     
     );
 }
