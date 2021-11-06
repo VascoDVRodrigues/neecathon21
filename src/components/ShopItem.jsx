@@ -5,7 +5,7 @@ const styles = {
     card: {
       borderRadius: 10,
       padding: '1rem',
-      width: '20%'
+      width: '20rem'
     },
     cardImage: {
       objectFit: 'contain',
@@ -15,7 +15,7 @@ const styles = {
 
 function ShopItem(props) {
     return (
-        <Card className="me-3 mb-3 shadow-sm" style={styles.card}>
+        <Card className="flex-fill me-3 mb-3 shadow-sm" style={styles.card}>
             <Card.Img variant="top" src={props.img} style={styles.cardImage}/>
             <Card.Body>
                 <Card.Title>{props.title}</Card.Title>
