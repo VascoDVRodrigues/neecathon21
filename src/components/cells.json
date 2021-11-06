@@ -1,4 +1,4 @@
-export default{
+{
     "cells": [
         {"id":0, "name":"start" },
         {"id":1, "name":"resistencia"},
