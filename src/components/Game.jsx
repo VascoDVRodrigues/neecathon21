@@ -1,29 +1,36 @@
 import React, { useState , useEffect} from "react";
-import {Container , Row , Col, ListGroup} from "react-bootstrap"
-import BoardCell from "./BoardCell"
+import {Container , Row , Col, ListGroup, Spinner} from "react-bootstrap"
+import Board from "./Board"
 
 
 function Game() {
     const [cells, setCells] = useState(undefined);
     useEffect(() => {
-        fetch('./cells.json')
-        .then(mockResponses => {
-            setCells(mockResponses);
-        })
-    },[]);
-    console.log(cells)
-    return(
-    <Container fluid>
-        <Row className="text-center mb-4">
-        <ListGroup horizontal>
-            <ListGroup.Item><BoardCell/></ListGroup.Item>
-            <ListGroup.Item>ListGroup</ListGroup.Item>
-            <ListGroup.Item>renders</ListGroup.Item>
-            <ListGroup.Item>horizontally!</ListGroup.Item>
-        </ListGroup> 
-        
-        
-        </Row>
-    </Container> );
+        var json = require('./cells.json'); 
+        setCells(json)
+    },[]);    
+    if(cells === undefined){
+        return (
+            <Container>
+                <Row className="text-center mb-4">
+                    <Col>
+                        <Spinner className="mt-3" animation="border" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </Spinner>
+                    </Col>
+                </Row>
+            </Container>      
+        );
+    } else {
+        return(
+            <Container fluid>
+                <Row className="text-center mb-4">  
+                    <Board board = {cells.cells}/>  
+                </Row>
+            </Container> );
+    }
+
+
+    
 }
 export default Game;

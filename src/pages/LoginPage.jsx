@@ -1,9 +1,9 @@
-import PageLayout from "../PageLayout";
+import PageLayoutPublic from "../PageLayoutPublic"
 import Login from "../components/Login";
 
 function LoginPage() {
   return (
-    <PageLayout children={<Login />} />
+    <PageLayoutPublic children={<Login />} />
   );
 }
 

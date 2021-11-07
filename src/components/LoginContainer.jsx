@@ -1,4 +1,4 @@
-import React from "react";
+import React , {useEffect, useState} from "react";
 import {Container , Row , Col} from "react-bootstrap"
 import { useRealtime } from 'react-supabase'
 import { Auth } from "@supabase/ui";
@@ -7,7 +7,7 @@ import { Button } from "@supabase/ui";
 
 function LoginContainer(props) {
     const { user } = Auth.useUser();
-    console.log(user)
+    
     if (user)
       return (
         <>

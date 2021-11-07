@@ -1,7 +1,7 @@
 import '../index.css'
 import React from 'react'
-import { Container,Row,Col } from 'react-bootstrap'
-import { SocialIcon } from 'react-social-icons';
+import {Row,Col} from 'react-bootstrap'
+import {SocialIcon} from 'react-social-icons';
 
 
 export default function Footer(){

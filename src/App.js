@@ -12,7 +12,6 @@ export default function App() {
           <Route path="/" element={<LoginPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/game" element={<GamePage />} />
-          <Route path="/home" element={<GamePage />} />
           <Route path="/shop" element={<ShopPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
