@@ -1,7 +1,9 @@
 import React from "react";
 import {Container , Row , Col } from "react-bootstrap"
+import supabaseClient from "../utils/supabaseClient";
 
 function Error() {
+    
     return (
         <Container>
             <Row className="text-center mb-4">
@@ -9,5 +11,6 @@ function Error() {
             </Row>
         </Container>       
     );
+                
 }
 export default Error;

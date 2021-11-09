@@ -3,8 +3,10 @@ import {Container , Row , Col ,Spinner, Popover, OverlayTrigger, Button, ListGro
 import { FaShoppingCart } from 'react-icons/fa';
 import ShopItem from "./ShopItem";
 import supabaseClient from "../utils/supabaseClient";
+import { Navigate, useLocation } from "react-router-dom"
 
 function Shop() {
+    let location = useLocation()
     const [items, setItems] = useState(undefined);
     const [cart, setCart] = useState([]);
     const [totalCash, setTotalCash] = useState(0.0);
@@ -21,7 +23,7 @@ function Shop() {
             .then(res=>res.json())
             .then(json=>setItems(json))
     },[]);
-
+    
     function handleDelete(id){
         console.log(id)
         for (var i = 0; i < cart.length; i++) {
@@ -85,6 +87,11 @@ function Shop() {
                 setTotalCash(totalCash + parseFloat(items[id-1].price) )
             }
         }  
+    }
+
+ 
+    if(supabaseClient.auth.user()===null){
+      return(<Navigate to="/login" state={{ from: location }}/>)
     }
     if(items === undefined){
         return (

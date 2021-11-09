@@ -4,17 +4,13 @@ import { Auth } from "@supabase/ui";
 import signIn from "../utils/signIn";
 import supabaseClient from "../utils/supabaseClient";
 import {FcGoogle} from 'react-icons/fc';
-import { useHistory } from 'react-router-dom';
+import { Route, Navigate, useLocation } from "react-router-dom"
 
 function Login() {
-  const history = useHistory();
-
-      useEffect(() => {
-        if(supabaseClient.auth.user()){
-          console.log("err")
-          history.push("/game");
-        }
-      },[]);
+  
+    if(supabaseClient.auth.user()){
+      return(<Navigate to="/game" />)
+    }else{
       return (
         <Container className="text-center">
           <Row>
@@ -38,9 +34,9 @@ function Login() {
             </Col>
             <Col />
           </Row>
-          
         </Container>
       );
+    }
 }
 export default Login;
 

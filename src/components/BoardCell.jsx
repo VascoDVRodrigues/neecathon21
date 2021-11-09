@@ -4,15 +4,16 @@ import { FaStaylinked } from "react-icons/fa";
 
 const styles = {
     card: {
-      height: '10vh',
+      minWidth: '10vmin',
+      width: '10vw'
     }
   }
 
 function BoardCell(props) {
     return (
-        <Card className="mb-3" styles = {styles.card}>
+        <Card className="mb-5" style = {{fontSize:'10px',minWidth: '10vmin', maxWidth:'10vmax',width: '10vw', minHeight:'10vmin', maxHeight:'10vmax', height:'10vw'}}>
             <Card.Body>
-                <Card.Title>{props.title}</Card.Title>
+                <Card.Title style={{fontSize: '20px'}}>{props.title}</Card.Title>
                 <Row> 
                     <Col>
                         ola
