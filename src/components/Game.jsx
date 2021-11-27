@@ -10,8 +10,6 @@ function Game() {
     const [cells, setCells] = useState(undefined);
     const [logged, setLogged] = useState(undefined);
     useEffect(() => {
-
-        
         var json = require('./cells.json'); 
         setCells(json)
         setTimeout(function(){

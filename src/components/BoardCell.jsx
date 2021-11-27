@@ -1,25 +1,49 @@
 import React from "react";
-import { Card, Button, Row, Col, ListGroup} from "react-bootstrap"
-import { FaStaylinked } from "react-icons/fa";
+import { Card,  Table} from "react-bootstrap"
 
 const styles = {
     card: {
-      minWidth: '10vmin',
-      width: '10vw'
+        fontSize:'10px',
+        minWidth: '10vmin', 
+        maxWidth:'10vmax',
+        width: '10vw', 
+        minHeight:'10vmin', 
+        maxHeight:'10vmax', 
+        height:'10vw'
+    },
+
+    cardImg: {
+        height: "10vw"
     }
+    
   }
 
 function BoardCell(props) {
     return (
-        <Card className="mb-5" style = {{fontSize:'10px',minWidth: '10vmin', maxWidth:'10vmax',width: '10vw', minHeight:'10vmin', maxHeight:'10vmax', height:'10vw'}}>
-            <Card.Body>
-                <Card.Title style={{fontSize: '20px'}}>{props.title}</Card.Title>
-                <Row> 
-                    <Col>
-                        ola
-                    </Col>
-                </Row>
-            </Card.Body>
+        <Card>
+            <Card.Img variant="top" src="/imagem.png"/>
+            <Card.ImgOverlay className="p-0 ">
+                <Card.Body className="p-0">
+                    <Table bordered size="sm" className="mb-0">
+                        <tbody>
+                            <tr>
+                                <td style={{backgroundColor:"#00FF00", color:"#00FF00"}}>N</td>
+                                <td style={{backgroundColor:"#0000FF", color:"#0000FF"}}>E</td>
+                                <td style={{backgroundColor:"#FFFF00", color:"#FFFF00"}}>E</td>
+                                <td style={{backgroundColor:"#800080", color:"#800080"}}>C</td>
+                                <td style={{backgroundColor:"#FF0000", color:"#FF0000"}}>A</td>
+                            </tr> 
+                            <tr>   
+                                <td style={{backgroundColor:"#FF0000", color:"#FF0000"}}>T</td>
+                                <td style={{backgroundColor:"#800080", color:"#800080"}}>H</td>
+                                <td style={{backgroundColor:"#FFFF00", color:"#FFFF00"}}>O</td>
+                                <td style={{backgroundColor:"#0000FF", color:"#0000FF"}}>N</td>
+                                <td style={{backgroundColor:"#00FF00", color:"#00FF00"}}>3</td>
+                            </tr>
+                        </tbody>
+                    </Table>
+                </Card.Body>
+            </Card.ImgOverlay>
         </Card>     
     );
 }

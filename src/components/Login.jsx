@@ -7,7 +7,6 @@ import {FcGoogle} from 'react-icons/fc';
 import { Route, Navigate, useLocation } from "react-router-dom"
 
 function Login() {
-  
     if(supabaseClient.auth.user()){
       return(<Navigate to="/game" />)
     }else{
