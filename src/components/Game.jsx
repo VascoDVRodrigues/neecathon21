@@ -6,24 +6,16 @@ import { Navigate, useLocation } from "react-router-dom"
 
 function Game() {
     let location = useLocation()
-
     const [cells, setCells] = useState(undefined);
-    const [logged, setLogged] = useState(undefined);
+    
     useEffect(() => {
         var json = require('./cells.json'); 
         setCells(json)
-        setTimeout(function(){
-            if(supabaseClient.auth.user()===null){
-                setLogged(false)
-            }else{
-                setLogged(true)
-            }
-       },1000); 
     },[]);  
-    if(logged === undefined){
-        return null
+    if(supabaseClient.auth.user()===null){
+        return(<Navigate to="/login" state={{ from: location }}/>)
     }
-    else if(cells === undefined ){
+    if(cells === undefined ){
         return (
             <Container>
                 <Row className="text-center mb-4">
@@ -36,9 +28,6 @@ function Game() {
             </Container>      
         );
     } 
-    else if(logged===false){
-        return(<Navigate to="/login" state={{ from: location }}/>)
-    }
     else {
         return(
             <Container fluid>
@@ -47,8 +36,5 @@ function Game() {
                 </Row>
             </Container> );
     }
-
-    
-
 }
 export default Game;

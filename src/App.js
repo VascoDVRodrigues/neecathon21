@@ -5,11 +5,13 @@ import GamePage from './pages/GamePage'
 import ErrorPage from './pages/ErrorPage'
 import ShopPage from './pages/ShopPage'
 import LoginPage from './pages/LoginPage'
+import UserRedirectPage from './pages/UserRedirectPage';
 
 export default function App() {
   return (
         <Routes>
           <Route path="/" element={<LoginPage />} />
+          <Route path="/redirecting" element={<UserRedirectPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/game" element={<GamePage />} />
           <Route path="/shop" element={<ShopPage />} />

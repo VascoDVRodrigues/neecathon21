@@ -10,6 +10,7 @@ function Shop() {
     const [items, setItems] = useState(undefined);
     const [cart, setCart] = useState([]);
     const [totalCash, setTotalCash] = useState(0.0);
+    const [totalItems, setTotalItems] = useState(0.0);
 
 
     //For the shopping list overlay
@@ -23,6 +24,13 @@ function Shop() {
             .then(res=>res.json())
             .then(json=>setItems(json))
     },[]);
+
+    function clearList(){
+        setTotalCash(0)
+        setTotalItems(0)
+        const newcart = [];
+        setCart(newcart);  
+    }
     
     function handleDelete(id){
         console.log(id)
@@ -39,6 +47,7 @@ function Shop() {
                     setCart(newcart); 
                 }
                 setTotalCash(totalCash - parseFloat(items[id-1].price) )
+                setTotalItems(totalItems-1)
                 break;
             } 
         }  
@@ -70,6 +79,7 @@ function Shop() {
         if(cart.length===0){
             setCart(prevCart => [...prevCart, {id:id,quantity: 1}])
             setTotalCash(totalCash + parseFloat(items[id-1].price) )
+            setTotalItems(totalItems+1)
         }else{
             let found = 0;
             for (var i = 0; i < cart.length; i++) {
@@ -78,6 +88,7 @@ function Shop() {
                     newcart[i].quantity += 1;
                     setCart(newcart); 
                     setTotalCash(totalCash + parseFloat(items[id-1].price) )
+                    setTotalItems(totalItems+1)
                     found = 1;
                     break;
                 } 
@@ -85,6 +96,7 @@ function Shop() {
             if (found===0){
                 setCart(prevCart => [...prevCart, {id:id,quantity: 1}])
                 setTotalCash(totalCash + parseFloat(items[id-1].price) )
+                setTotalItems(totalItems+1)
             }
         }  
     }
@@ -115,7 +127,9 @@ function Shop() {
                         {/* <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
                             <Button className = "mt-3" size="lg" variant="light" ><FaShoppingCart/> View Cart</Button>
                         </OverlayTrigger> */}
-                        <Button variant="primary" className="mt-4" onClick={handleShow}> <FaShoppingCart/> View Cart </Button>
+                        <Button variant="primary" className="mt-4" onClick={handleShow}> 
+                            <FaShoppingCart className="me-2"/> View Cart <Badge pill bg="secondary">{totalItems}</Badge>
+                        </Button>
                     </Col>
 
                     <Offcanvas show={show} onHide={handleClose} placement="end">
@@ -123,21 +137,33 @@ function Shop() {
                             <Offcanvas.Title as="h3">Shopping List</Offcanvas.Title>
                         </Offcanvas.Header>
                         <Offcanvas.Body>
-                            <ListGroup>
-                                {cart === undefined?null:cart.map(item => (
-                                    <ListGroup.Item> 
-                                        {items[item.id-1].title} 
-                                        <Button className="mx-1" variant="primary" onClick={()=>handleBuy(item.id)}>+</Button> 
-                                         <Badge bg="secondary" pill>{item.quantity}</Badge> 
-                                        <Button className="mx-1" variant="danger" onClick={()=>handleDelete(item.id)}>-</Button>
-                                    </ListGroup.Item>
-                                ))}
-                            </ListGroup>
-                            <Row >
-                                <Col className="mt-2"> Total: {Math.abs( totalCash ).toFixed(2)} € </Col>
-                                <Col> <Button className="mt-2" variant="primary"> Buy </Button> </Col>
-                            </Row> 
+                            <Row> 
+                                <ListGroup>
+                                    {cart === undefined?null:cart.map(item => (
+                                        <ListGroup.Item> 
+                                            <Row> 
+                                                <Col className="my-auto"> {items[item.id-1].title} </Col>
+                                                {/* no ideia why mas className="text-end" nao funciona, mas text-center ja funciona */}
+                                                <Col className="my-auto" style={{textAlign: "right"}}>  
+                                                    <Button className="mx-1" variant="primary" onClick={()=>handleBuy(item.id)}>+</Button> 
+                                                    <Badge bg="secondary" pill>{item.quantity}</Badge> 
+                                                    <Button className="mx-1" variant="danger" onClick={()=>handleDelete(item.id)}>-</Button>
+                                                </Col>
+                                            </Row>
+                                        </ListGroup.Item>
+                                    ))}
+                                </ListGroup>
+                            </Row>
                         </Offcanvas.Body>
+                        <Container> 
+                            <Row as="h4" >
+                                <Col className="mt-2"> Total: {Math.abs( totalCash ).toFixed(2)} € </Col>
+                                <Col style={{textAlign: "right"}}>
+                                    <Button className="mt-2 me-2" variant="danger" onClick={()=>clearList()}> Clear List </Button>
+                                    <Button className="mt-2" variant="primary" > Buy </Button> 
+                                </Col>
+                            </Row>
+                        </Container>
                     </Offcanvas>
                 </Row>
                 <Row>        
