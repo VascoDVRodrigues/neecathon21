@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Button, Row, Col, ListGroup} from "react-bootstrap"
+import { Card, Button, Row, Col, ListGroup, Container} from "react-bootstrap"
 
 const styles = {
     card: {
@@ -18,15 +18,14 @@ function ShopItem(props) {
         <Card className="flex-fill me-3 mb-3 shadow-sm" style={styles.card}>
             <Card.Img variant="top" src={props.img} style={styles.cardImage}/>
             <Card.Body>
-                <Card.Title>{props.title}</Card.Title>
-                <Row> 
-                    <Col>
-                        <Button variant="primary" onClick = {()=>props.action(props.id)}>Add to Cart</Button>
-                    </Col>
-                </Row>
+                <Card.Title>{props.title}</Card.Title>  
             </Card.Body>
+            {/* uncomment this container e o botao fica pequeno */}
+            {/* <Container >  */}
+                <Button className="mb-2" variant="primary" onClick = {()=>props.action(props.id)}>Add to Cart</Button>
+            {/* </Container> */}
             <ListGroup variant="flush">
-                <ListGroup.Item>{props.price.toFixed(2)+" €"}</ListGroup.Item>
+                <ListGroup.Item as="h5">{props.price.toFixed(2)+" €"}</ListGroup.Item>
             </ListGroup>
         </Card>     
     );

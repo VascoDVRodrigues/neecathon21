@@ -21,8 +21,8 @@ const styles = {
 function BoardCell(props) {
     return (
         <Card>
-            <Card.Img variant="top" src="/imagem.png"/>
-            <Card.ImgOverlay className="p-0 ">
+            <Card.Img src="/imagem.png"/>
+            {/* <Card.ImgOverlay className="p-0 ">
                 <Card.Body className="p-0">
                     <Table bordered size="sm" className="mb-0">
                         <tbody>
@@ -43,7 +43,7 @@ function BoardCell(props) {
                         </tbody>
                     </Table>
                 </Card.Body>
-            </Card.ImgOverlay>
+            </Card.ImgOverlay> */}
         </Card>     
     );
 }
