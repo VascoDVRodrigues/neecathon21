@@ -4,6 +4,8 @@ import {Container , Row , Col, Card, ListGroupItem, Badge, ListGroup, Spinner, P
 import supabaseClient from "../utils/supabaseClient";
 import { Navigate, useLocation } from "react-router-dom"
 
+import ProfileServices from "../core/ProfileServices";
+
 
 
 
@@ -12,13 +14,14 @@ function Profile() {
     const [team, setTeam] = useState(undefined);
     const [teamMembers, setTeamMembers] = useState(undefined);
     const [teamComponents, setTeamComponents] = useState(undefined);
+    const [teamHouses, setTeamHouses] = useState(undefined);
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        
-    getTeamMembers()
-    getTeam()
-    getTeamComponents()
+    ProfileServices.getTeam(setTeam)  
+    ProfileServices.getTeamMembers(setTeamMembers)
+    ProfileServices.getTeamComponents(setTeamComponents)
+    ProfileServices.getTeamHouses(setTeamHouses)
       }, [])
     
 
@@ -26,84 +29,10 @@ function Profile() {
         return(<Navigate to="/login" state={{ from: location }}/>)
     }
 
-    async function getTeam() {
-        try {
-            let { data, error, status } = await supabaseClient
-              .from('Teams')
-              .select(`*`)
-      
-            if (error && status !== 406) {
-              throw error
-            }
-            if (data) {
-              setTeam(data)
-            }
-            
-          } catch (error) {
-            alert(error.message)
-          }
-    }
-
-    async function getTeamMembers() {
-        try {
-            let { data, error, status } = await supabaseClient
-              .from('TeamMembers')
-              .select(`*`)
-      
-            if (error && status !== 406) {
-              throw error
-            }
-            if (data) {
-                var array = [];
-
-                data.forEach(element => {
-                    array.push(element.Name);
-                });
-                setTeamMembers(array);
-            }
-          } catch (error) {
-            alert(error.message)
-          } 
-    }
-
-    async function getTeamComponents() {
-        try {
-            let { data, error, status } = await supabaseClient
-              .from('Components|Team')
-              .select(`*`)
-      
-            if (error && status !== 406) {
-              throw error
-            }
-            if (data) {
-                var array = new Array();
-                for (const component of data) {
-                    var item = {QUANTITY: component.QUANTITY};
-                    try {
-                        let { data, error, status } = await supabaseClient
-                          .from('Components')
-                          .select(`*`).eq('IDCOMPONENT', component.IDCOMPONENT)
-                  
-                        if (error && status !== 406) {
-                          throw error
-                        }
-                        if (data) {
-                            item.NAME = data[0].NAME 
-                            array.push(item)
-                        }
-                      } catch (error) {
-                        alert(error.message)
-                    }
-                  }
-                setTeamComponents(array);
-            }
-          } catch (error) {
-            alert(error.message)
-          } 
-    }
 
 
-    if(team === undefined || teamMembers === undefined || teamComponents === undefined){
+
+    if(team === undefined || teamMembers === undefined || teamComponents === undefined || teamHouses === undefined ){
 
         return (
             <Container>
@@ -117,13 +46,13 @@ function Profile() {
             </Container>      
         );
     }else{
-    console.log(team, teamMembers, teamComponents.len);
+    console.log(team, teamMembers, teamComponents, teamHouses);
     return(
         <Container fluid="lg">
             <Row>
                 <Col className="pt-4 pb-4 p-2 col-sm-auto" md="auto"> 
                     <Card style={{ width: '80vw', maxWidth: '22rem', 'margin': '0 auto' }}>
-                        <Card.Img variant="top" src="https://techcommunity.microsoft.com/t5/image/serverpage/image-id/217078i525F6A9EF292601F/image-size/large" />
+                        <Card.Img variant="top" src={team[0].IMAGE === null?"https://media.discordapp.net/attachments/866354544544055346/915249222079615006/blank-profile-picture-973460_640.png":team[0].IMAGE} />
                         <Card.Body>
                             <Card.Title>{team[0].NAME}</Card.Title>
                             <Card.Text>
@@ -167,7 +96,7 @@ function Profile() {
                     <Col className="p-0 mb-3"   lg={{ span: 5}}>
                     <Card >
                             <Card.Header as="h5">Inventário:</Card.Header>
-                            <ListGroup as="ul"  variant="flush" style={{maxHeight: '48vh', marginBottom: '10px','overflow':'scroll', WebkitOverflowScrolling: 'touch'}}>                     
+                            <ListGroup as="ul"  variant="flush" style={{maxHeight: '48vh', marginBottom: '10px', WebkitOverflowScrolling: 'touch'}}>                     
                             {teamComponents === undefined?null:teamComponents.map((component,i)  => (
                                 <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
                                     <div className="ms-2 me-auto">
@@ -184,8 +113,9 @@ function Profile() {
                     <Card >
                             <Card.Header as="h5">Lista de Casas: </Card.Header>
                             <ListGroup as="ul" variant="flush">
-                            <ListGroup.Item as="li">NEECoins: 300 <img style={{lineHeight: '0',height: '1rem'}} src="https://cdn.discordapp.com/attachments/866354544544055346/914201994342850590/Asset_10.svg" /></ListGroup.Item>
-                            <ListGroup.Item as="li">Número de Casa Compradas: 7</ListGroup.Item>
+                            {teamHouses === undefined?null:teamHouses.map(House => (
+                                    <ListGroup.Item as="li" style={{backgroundColor: House.COLOR}}>{House.NAME}</ListGroup.Item>
+                            ))}
 
                             </ListGroup>
                         </Card>
