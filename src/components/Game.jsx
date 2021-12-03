@@ -7,21 +7,16 @@ import { Navigate, useLocation } from "react-router-dom"
 function Game() {
     let location = useLocation()
     const [cells, setCells] = useState(undefined);
-    const selectTodos = async () => {
-        let { data } = await supabaseClient.from("Persons").select("*")
-        console.log(data)
-        console.log("boas")
-    }
+
     useEffect(() => {
         var json = require('./cells.json'); 
         setCells(json)
-        selectTodos()
+        //selectTodos()
     },[]);  
     if(supabaseClient.auth.user()===null){
         return(<Navigate to="/login" state={{ from: location }}/>)
     }
 
-    
     if(cells === undefined ){
         return (
             <Container>

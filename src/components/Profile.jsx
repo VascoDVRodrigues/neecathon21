@@ -6,47 +6,39 @@ import { Navigate, useLocation } from "react-router-dom"
 
 import ProfileServices from "../core/ProfileServices";
 
-
-
-
 function Profile() {
     let location = useLocation()
     const [team, setTeam] = useState(undefined);
     const [teamMembers, setTeamMembers] = useState(undefined);
     const [teamComponents, setTeamComponents] = useState(undefined);
     const [teamHouses, setTeamHouses] = useState(undefined);
-    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-    ProfileServices.getTeam(setTeam)  
-    ProfileServices.getTeamMembers(setTeamMembers)
-    ProfileServices.getTeamComponents(setTeamComponents)
-    ProfileServices.getTeamHouses(setTeamHouses)
-      }, [])
+        ProfileServices.getTeam(setTeam)
+        ProfileServices.getTeamMembers(setTeamMembers)
+        ProfileServices.getTeamComponents(setTeamComponents)
+        ProfileServices.getTeamHouses(setTeamHouses)
+    },[])
     
 
     if(supabaseClient.auth.user()===null){
         return(<Navigate to="/login" state={{ from: location }}/>)
     }
 
-
-
-
     if(team === undefined || teamMembers === undefined || teamComponents === undefined || teamHouses === undefined ){
-
         return (
             <Container>
                 <Row className="text-center mb-4">
                 <Col>
-                        <Spinner className="mt-3" animation="border" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </Spinner>
-                    </Col>
+                    <Spinner className="mt-3" animation="border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                </Col>
                 </Row>
             </Container>      
         );
     }else{
-    console.log(team, teamMembers, teamComponents, teamHouses);
+    console.log("ola", team, teamMembers, teamComponents, teamHouses);
     return(
         <Container fluid="lg">
             <Row>

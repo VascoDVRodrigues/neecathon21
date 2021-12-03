@@ -4,17 +4,16 @@ import { FaShoppingCart } from 'react-icons/fa';
 import ShopItem from "./ShopItem";
 import supabaseClient from "../utils/supabaseClient";
 import { Navigate, useLocation } from "react-router-dom"
-
+import StoreService from '../core/StoreServices'
 function Shop() {
     let location = useLocation()
     const [items, setItems] = useState(undefined);
     const [cart, setCart] = useState([]);
     const [totalCash, setTotalCash] = useState(0.0);
     const [totalItems, setTotalItems] = useState(0.0);
-    const getItems = async () => {
-        let { data } = await supabaseClient.from("Components").select("*")
-        return data
-    }
+    
+
+
     //For the shopping list overlay
     const [show, setShow] = useState(false);
 
@@ -22,9 +21,7 @@ function Shop() {
     const handleShow = () => setShow(true);
 
     useEffect(() => {
-        getItems().then((data) => { 
-            setItems(data)
-        })
+        StoreService.getComponents(setItems)
         //fetch('https://fakestoreapi.com/products')
         //    .then(res=>res.json())
         //    .then(json=>setItems(json))
@@ -200,7 +197,7 @@ function Shop() {
                         </Offcanvas.Body>
                         <Container> 
                             <Row as="h4" >
-                                <Col className="mt-2"> Total: {Math.abs( totalCash ).toFixed(2)} € </Col>
+                                <Col className="mt-2"> Total: {Math.abs( totalCash )} <img style={{lineHeight: '0',height: '1rem'}} src="https://cdn.discordapp.com/attachments/866354544544055346/914201994342850590/Asset_10.svg" /></Col>
                                 <Col style={{textAlign: "right"}}>
                                     <Button className="mt-2 me-2" variant="danger" onClick={()=>clearList()}> Clear List </Button>
                                     <Button className="mt-2" variant="primary" > Buy </Button> 

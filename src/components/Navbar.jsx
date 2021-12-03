@@ -18,8 +18,7 @@ export default function MyNav() {
         
         <Navbar.Collapse className="justify-content-end">
           <NavDropdown align="end" title="My Team">
-            <NavDropdown.Item >Team Profile</NavDropdown.Item>
-            <NavDropdown.Item >Inventory</NavDropdown.Item>
+            <NavDropdown.Item href="/profile">Team Profile</NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item onClick={()=>supabaseClient.auth.signOut()} href="http://localhost:3000/">Logout</NavDropdown.Item>
           </NavDropdown>

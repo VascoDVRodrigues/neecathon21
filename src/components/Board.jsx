@@ -4,6 +4,7 @@ import { Container, CardGroup, Button, Row, Col, Spinner, Card} from "react-boot
 import BoardCell from "./BoardCell";
 import Leaderboard from "./Leaderboard";
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
+import GameServices from "../core/GameServices";
 
 import "./styles.css";
 
@@ -12,9 +13,11 @@ const TIME_BETWEEN_PLAYS = 15; //in minutes
 function Board(props) {
     const [key, setKey] = useState(0);
     const [teams, setTeams] = useState(undefined);
+    const [admin, setAdmin] = useState(false);
 
     useEffect(() => {
         var json = require('./teams.json'); 
+        GameServices.getPerson(setAdmin)
         setTeams(json)
     },[]);
 
@@ -90,7 +93,7 @@ function Board(props) {
                     <BoardCell title={props.board[21].name}/>
                     <Col></Col>
                     <Col></Col>
-                    <Col className="my-auto"><Button onClick={()=>setKeys()} variant="primary">Roll</Button></Col>
+                    <Col className="my-auto">{admin?<Button onClick={()=>setKeys()} variant="primary">Roll</Button>:null}</Col>
                     <Col></Col>
                     <Col></Col>
                     <BoardCell title={props.board[9].name}/>
