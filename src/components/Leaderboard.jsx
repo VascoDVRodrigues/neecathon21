@@ -1,5 +1,4 @@
 import React from "react";
-import { Card,  Row} from "react-bootstrap"
 import LeaderboardElement from "./LeaderboardElement";
 
 function Leaderboard(props) {
@@ -9,9 +8,8 @@ function Leaderboard(props) {
 
     return (
         <div>
-            {sortedTeams.map(item => (
-                <LeaderboardElement name={item.name} coins={item.coins}
-                />
+            {sortedTeams.map((item, index) => (
+                <LeaderboardElement key={index} name={item.name} coins={item.coins}/>
             ))}
         </div>  
     );

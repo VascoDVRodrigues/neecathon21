@@ -1,18 +1,40 @@
 import React from "react";
 import { useState , useEffect} from "react";
-import { Container, Card, CardGroup, Button, Row, Col, ListGroup, Spinner} from "react-bootstrap"
-import supabaseClient from "../utils/supabaseClient";
+import { Container, CardGroup, Button, Row, Col, Spinner, Card} from "react-bootstrap"
 import BoardCell from "./BoardCell";
 import Leaderboard from "./Leaderboard";
+import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 
+import "./styles.css";
+
+const TIME_BETWEEN_PLAYS = 15; //in minutes
 
 function Board(props) {
+    const [key, setKey] = useState(0);
     const [teams, setTeams] = useState(undefined);
+
     useEffect(() => {
         var json = require('./teams.json'); 
         setTeams(json)
     },[]);
 
+    function setKeys() {
+        setKey(key + 1)
+    }
+
+    const renderTime = (time) => {
+        let secs = (time % 60);
+        let mins = (time - secs)/60;
+        return (
+          <div className="timer">
+            <div>{ mins }</div>
+            <div>Minutes</div>
+            <div>{secs}</div>
+            <div>Seconds</div>
+          </div>
+        );
+      };
+        
     if(teams === undefined){
         return (
             <Container>
@@ -68,7 +90,7 @@ function Board(props) {
                     <BoardCell title={props.board[21].name}/>
                     <Col></Col>
                     <Col></Col>
-                    <Col className="my-auto"><Button variant="primary">Roll</Button></Col>
+                    <Col className="my-auto"><Button onClick={()=>setKeys()} variant="primary">Roll</Button></Col>
                     <Col></Col>
                     <Col></Col>
                     <BoardCell title={props.board[9].name}/>
@@ -104,7 +126,20 @@ function Board(props) {
                     <BoardCell title={props.board[12].name}/>
                 </CardGroup>
                 </Col>
-                <Col></Col>
+                <Col> 
+                    <Card>
+                        <Card.Body> 
+                            <Card.Title>Time until next play</Card.Title>
+                            <Card.Text>
+                                <div className="timer-wrapper"> 
+                                    <CountdownCircleTimer key={key} isPlaying duration={TIME_BETWEEN_PLAYS * 60} colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000', 0.33]]}>
+                                        {({ remainingTime }) => renderTime(remainingTime)} 
+                                    </CountdownCircleTimer>
+                                </div>
+                            </Card.Text>
+                        </Card.Body>
+                    </Card> 
+                </Col>
                 </Row>
             </Container>    
         );

@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
 import {Container , Row , Col, Card , Button} from "react-bootstrap"
 import { Auth } from "@supabase/ui";
 import signIn from "../utils/signIn";
 import supabaseClient from "../utils/supabaseClient";
 import {FcGoogle} from 'react-icons/fc';
-import { Route, Navigate, useLocation } from "react-router-dom"
+import { Navigate } from "react-router-dom"
 
 function Login() {
     if(supabaseClient.auth.user()){

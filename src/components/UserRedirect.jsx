@@ -1,16 +1,12 @@
 import React, { useEffect , useState} from "react";
-import {Container , Row , Col, Card , Button} from "react-bootstrap"
-import { Auth } from "@supabase/ui";
-import signIn from "../utils/signIn";
+import {Container , Row , Col, Card} from "react-bootstrap"
 import supabaseClient from "../utils/supabaseClient";
-import {FcGoogle} from 'react-icons/fc';
-import { Route, Navigate, useLocation } from "react-router-dom"
+import { Navigate } from "react-router-dom"
 
 function UserRedirect() {
     const [loading, setLoading] = useState(true);
     const [logged, setLogged] = useState(undefined);
     const [loader, setLoader] = useState(false);
-
 
     useEffect(() => {
         setTimeout(function(){

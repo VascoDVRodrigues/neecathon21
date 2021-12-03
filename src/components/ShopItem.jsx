@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Button, Row, Col, ListGroup, Container} from "react-bootstrap"
+import { Card, Button, ListGroup} from "react-bootstrap"
 
 const styles = {
     card: {

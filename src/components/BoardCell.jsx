@@ -1,22 +1,22 @@
 import React from "react";
-import { Card,  Table} from "react-bootstrap"
+import { Card } from "react-bootstrap"
 
-const styles = {
-    card: {
-        fontSize:'10px',
-        minWidth: '10vmin', 
-        maxWidth:'10vmax',
-        width: '10vw', 
-        minHeight:'10vmin', 
-        maxHeight:'10vmax', 
-        height:'10vw'
-    },
+// const styles = {
+//     card: {
+//         fontSize:'10px',
+//         minWidth: '10vmin', 
+//         maxWidth:'10vmax',
+//         width: '10vw', 
+//         minHeight:'10vmin', 
+//         maxHeight:'10vmax', 
+//         height:'10vw'
+//     },
 
-    cardImg: {
-        height: "10vw"
-    }
+//     cardImg: {
+//         height: "10vw"
+//     }
     
-  }
+//   }
 
 function BoardCell(props) {
     return (

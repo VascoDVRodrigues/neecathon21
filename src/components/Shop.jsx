@@ -1,5 +1,5 @@
 import React, { useState , useEffect} from "react";
-import {Container , Row , Col ,Spinner, Popover, OverlayTrigger, Button, ListGroup, Badge, Offcanvas} from "react-bootstrap"
+import {Container , Row , Col ,Spinner, Button, ListGroup, Badge, Offcanvas} from "react-bootstrap"
 import { FaShoppingCart } from 'react-icons/fa';
 import ShopItem from "./ShopItem";
 import supabaseClient from "../utils/supabaseClient";
@@ -11,8 +11,10 @@ function Shop() {
     const [cart, setCart] = useState([]);
     const [totalCash, setTotalCash] = useState(0.0);
     const [totalItems, setTotalItems] = useState(0.0);
-
-
+    const getItems = async () => {
+        let { data } = await supabaseClient.from("Components").select("*")
+        return data
+    }
     //For the shopping list overlay
     const [show, setShow] = useState(false);
 
@@ -20,9 +22,12 @@ function Shop() {
     const handleShow = () => setShow(true);
 
     useEffect(() => {
-        fetch('https://fakestoreapi.com/products')
-            .then(res=>res.json())
-            .then(json=>setItems(json))
+        getItems().then((data) => { 
+            setItems(data)
+        })
+        //fetch('https://fakestoreapi.com/products')
+        //    .then(res=>res.json())
+        //    .then(json=>setItems(json))
     },[]);
 
     function clearList(){
@@ -31,9 +36,23 @@ function Shop() {
         const newcart = [];
         setCart(newcart);  
     }
+
+    function findElement(id) {
+        let element = undefined;
+        //Find the item in items array
+        for (let index = 0; index < items.length; index++) {
+            element = items[index];
+            if (element.IDCOMPONENT === id) {
+                //found the element
+                return element;
+            }
+        }
+        return undefined;
+    }
     
     function handleDelete(id){
-        console.log(id)
+        let element = findElement(id);
+
         for (var i = 0; i < cart.length; i++) {
             if (cart[i].id === id ){
                 if (cart[i].quantity === 1){
@@ -46,7 +65,7 @@ function Shop() {
                     newcart[i].quantity-=1;
                     setCart(newcart); 
                 }
-                setTotalCash(totalCash - parseFloat(items[id-1].price) )
+                setTotalCash(totalCash - parseFloat(element.PRICE) );
                 setTotalItems(totalItems-1)
                 break;
             } 
@@ -76,9 +95,16 @@ function Shop() {
     // );
     
     function handleBuy(id){
+        let element = findElement(id);
+        // console.log("Found element with id %d", id, element);
+
+        if(element === undefined){
+            return;
+        }
+
         if(cart.length===0){
             setCart(prevCart => [...prevCart, {id:id,quantity: 1}])
-            setTotalCash(totalCash + parseFloat(items[id-1].price) )
+            setTotalCash(totalCash + parseFloat(element.PRICE) )
             setTotalItems(totalItems+1)
         }else{
             let found = 0;
@@ -87,24 +113,24 @@ function Shop() {
                     const newcart = [...cart];
                     newcart[i].quantity += 1;
                     setCart(newcart); 
-                    setTotalCash(totalCash + parseFloat(items[id-1].price) )
-                    setTotalItems(totalItems+1)
+                    setTotalCash(totalCash + parseFloat(element.PRICE) );
+                    setTotalItems(totalItems+1);
                     found = 1;
                     break;
                 } 
             }  
             if (found===0){
-                setCart(prevCart => [...prevCart, {id:id,quantity: 1}])
-                setTotalCash(totalCash + parseFloat(items[id-1].price) )
-                setTotalItems(totalItems+1)
+                setCart(prevCart => [...prevCart, {id:id,quantity: 1}]);
+                setTotalCash(totalCash + parseFloat(element.PRICE) );
+                setTotalItems(totalItems+1);
             }
         }  
     }
 
- 
     if(supabaseClient.auth.user()===null){
       return(<Navigate to="/login" state={{ from: location }}/>)
     }
+
     if(items === undefined){
         return (
             <Container>
@@ -131,7 +157,8 @@ function Shop() {
                             <FaShoppingCart className="me-2"/> View Cart <Badge pill bg="secondary">{totalItems}</Badge>
                         </Button>
                     </Col>
-
+                    
+                    {/* OFFCANVAS that shows the shopping list */}
                     <Offcanvas show={show} onHide={handleClose} placement="end">
                         <Offcanvas.Header closeButton>
                             <Offcanvas.Title as="h3">Shopping List</Offcanvas.Title>
@@ -139,19 +166,35 @@ function Shop() {
                         <Offcanvas.Body>
                             <Row> 
                                 <ListGroup>
-                                    {cart === undefined?null:cart.map(item => (
-                                        <ListGroup.Item> 
-                                            <Row> 
-                                                <Col className="my-auto"> {items[item.id-1].title} </Col>
-                                                {/* no ideia why mas className="text-end" nao funciona, mas text-center ja funciona */}
-                                                <Col className="my-auto" style={{textAlign: "right"}}>  
-                                                    <Button className="mx-1" variant="primary" onClick={()=>handleBuy(item.id)}>+</Button> 
-                                                    <Badge bg="secondary" pill>{item.quantity}</Badge> 
-                                                    <Button className="mx-1" variant="danger" onClick={()=>handleDelete(item.id)}>-</Button>
-                                                </Col>
-                                            </Row>
-                                        </ListGroup.Item>
-                                    ))}
+                                    {/* The cart only contains the ID and the quantity of the product with that ID */}
+                                    {cart === undefined?null:cart.map(function(item, index){
+                                        let element = findElement(item.id);
+                                        return <ListGroup.Item key={index}> 
+                                                    <Row> 
+                                                        <Col className="my-auto"> {element.NAME} </Col>
+                                                        {/* no ideia why mas className="text-end" nao funciona, mas text-center ja funciona */}
+                                                        <Col className="my-auto" style={{textAlign: "right"}}>  
+                                                            <Button className="mx-1" variant="primary" onClick={()=>handleBuy(element.IDCOMPONENT)}>+</Button> 
+                                                            <Badge bg="secondary" pill>{item.quantity}</Badge> 
+                                                            <Button className="mx-1" variant="danger" onClick={()=>handleDelete(element.IDCOMPONENT)}>-</Button>
+                                                        </Col>
+                                                    </Row>
+                                                </ListGroup.Item>
+                                    })
+                                    // .map(item => (
+                                    //     <ListGroup.Item> 
+                                    //         <Row> 
+                                    //             <Col className="my-auto"> {item.NAME} </Col>
+                                    //             {/* no ideia why mas className="text-end" nao funciona, mas text-center ja funciona */}
+                                    //             <Col className="my-auto" style={{textAlign: "right"}}>  
+                                    //                 <Button className="mx-1" variant="primary" onClick={()=>handleBuy(item.IDCOMPONENT)}>+</Button> 
+                                    //                 <Badge bg="secondary" pill>{item.STOCK}</Badge> 
+                                    //                 <Button className="mx-1" variant="danger" onClick={()=>handleDelete(item.IDCOMPONENT)}>-</Button>
+                                    //             </Col>
+                                    //         </Row>
+                                    //     </ListGroup.Item>
+                                    // ))
+                                    }
                                 </ListGroup>
                             </Row>
                         </Offcanvas.Body>
@@ -167,8 +210,8 @@ function Shop() {
                     </Offcanvas>
                 </Row>
                 <Row>        
-                    {items.map(item => (
-                        <ShopItem title = {item.title} description = {item.description} img = {item.image} price = {item.price} id = {item.id} action = {handleBuy}/>
+                    {items.map((item, index) => (
+                        <ShopItem key={index} title = {item.NAME} img = {item.IMAGE} price = {item.PRICE} id = {item.IDCOMPONENT} action = {handleBuy}/>
                     ))}
                 </Row>
             </Container>       
