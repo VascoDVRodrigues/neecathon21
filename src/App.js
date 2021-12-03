@@ -5,6 +5,7 @@ import GamePage from './pages/GamePage'
 import ErrorPage from './pages/ErrorPage'
 import ShopPage from './pages/ShopPage'
 import LoginPage from './pages/LoginPage'
+import ProfilePage from './pages/ProfilePage';
 import UserRedirectPage from './pages/UserRedirectPage';
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/game" element={<GamePage />} />
           <Route path="/shop" element={<ShopPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
     )
