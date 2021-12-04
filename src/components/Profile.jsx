@@ -51,11 +51,11 @@ function Profile() {
                                 Descrição motivacional de equipa
                             </Card.Text>
                         </Card.Body>
-                        <ListGroup className="list-group-flush">
+                        {/*<ListGroup className="list-group-flush">
                             <ListGroupItem>Cras justo odio</ListGroupItem>
                             <ListGroupItem>Dapibus ac facilisis in</ListGroupItem>
                             <ListGroupItem>Vestibulum at eros</ListGroupItem>
-                        </ListGroup>
+    </ListGroup>*/}
                     </Card>
                 </Col>
                 <Col className="pt-4 pb-4 p-2" >

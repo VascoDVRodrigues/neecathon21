@@ -16,13 +16,14 @@ const StoreService ={
             alert(error.message);
         }
     },
-    buyComponents:async function (cart) {
+    buyComponents:async function (cart, setModalText) {
         axios.post('http://backend.neecist.xyz/buy', {
             itemList: cart,
             token:supabaseClient.auth.currentSession.access_token
           })
           .then(function (response) {
-            console.log(response);
+            setModalText(response.data.message)
+            
           })
           .catch(function (error) {
             console.log(error);
@@ -36,7 +37,6 @@ const StoreService ={
             throw error;
           }
           if (data) {
-            console.log(data)
             setMoney(data[0].CASH);
           }
         } catch (error) {

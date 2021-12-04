@@ -44,7 +44,16 @@ const GameServices ={
         } catch (error) {
             alert(error.message);
         }
-    }
+    },
+    getTime:async function (setTime) {
+        axios.get('http://backend.neecist.xyz/rollTimer')
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+    },
 }
 
 export default GameServices

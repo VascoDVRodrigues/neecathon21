@@ -1,5 +1,5 @@
 import React, { useState , useEffect} from "react";
-import {Container , Row , Col ,Spinner, Button, ListGroup, Badge, Offcanvas} from "react-bootstrap"
+import {Container , Row , Col ,Spinner, Button, ListGroup, Badge, Offcanvas, Modal} from "react-bootstrap"
 import { FaShoppingCart } from 'react-icons/fa';
 import ShopItem from "./ShopItem";
 import supabaseClient from "../utils/supabaseClient";
@@ -16,6 +16,8 @@ function Shop() {
 
     //For the shopping list overlay
     const [show, setShow] = useState(false);
+    const [modal, setModal] = useState(false);
+    const [modalText, setModalText] = useState("");
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -64,27 +66,16 @@ function Shop() {
             } 
         }  
     }
-    // const popover = (
-    //     <Popover id="popover-basic">
-    //       <Popover.Header as="h3">Shopping List</Popover.Header>
-    //         <Popover.Body>
-    //             <ListGroup>
-    //             {cart === undefined?null:cart.map(item => (
-    //                 <ListGroup.Item> {items[item.id-1].title} 
-    //                     <Button variant="primary" onClick={()=>handleBuy(item.id)}>+</Button> 
-    //                     <h6> <Badge bg="secondary" pill>{item.quantity}</Badge> </h6>
-    //                     <Button variant="danger" onClick={()=>handleDelete(item.id)}>-</Button>
-    //                 </ListGroup.Item>
-    //             ))}
-    //             </ListGroup>
-    //             <Row >
-    //                 <Col className="mt-2"> Total: {Math.abs( totalCash ).toFixed(2)} € </Col>
-    //                 <Col> <Button className="mt-2" variant="primary"> Buy </Button> </Col>
-    //             </Row> 
-                 
-    //         </Popover.Body>
-    //     </Popover>
-    // );
+    function buyItems(){
+        if(totalCash>money){
+            setModalText("Woohoo, you don't have enough money to buy the components! ")
+        }else{
+            StoreService.buyComponents(cart, setModalText)
+            setMoney(money-totalCash)
+            clearList()
+        }
+        setModal(true)
+    }
     console.log(money)
     function handleBuy(id){
         let element = findElement(id);
@@ -135,8 +126,16 @@ function Shop() {
     }else{
         return (
             <Container fluid >
+                <Modal show={modal} onHide={()=>setModal(false)}>
+                    <Modal.Body>{modalText}</Modal.Body>
+                    <Modal.Footer>
+                    <Button variant="secondary" onClick={()=>setModal(false)}>
+                        Close
+                    </Button>
+                    </Modal.Footer>
+                </Modal>
                 <Row className="text-center mb-4">
-                    <Col>Team Budget: {money!==undefined?money:0}<img style={{lineHeight: '0',height: '1rem'}} src="https://cdn.discordapp.com/attachments/866354544544055346/914201994342850590/Asset_10.svg" /></Col>
+                    <Col className="justify-content-flex-end">Team Budget: {money!==undefined?money:0}<img style={{lineHeight: '0',height: '1rem'}} src="https://cdn.discordapp.com/attachments/866354544544055346/914201994342850590/Asset_10.svg" /></Col>
                     <Col xs={6}><h1 className="display-4 font-weight-normal" >Shop</h1></Col>
                     <Col  className="justify-content-flex-end">
                         {/* <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
@@ -170,19 +169,6 @@ function Shop() {
                                                     </Row>
                                                 </ListGroup.Item>
                                     })
-                                    // .map(item => (
-                                    //     <ListGroup.Item> 
-                                    //         <Row> 
-                                    //             <Col className="my-auto"> {item.NAME} </Col>
-                                    //             {/* no ideia why mas className="text-end" nao funciona, mas text-center ja funciona */}
-                                    //             <Col className="my-auto" style={{textAlign: "right"}}>  
-                                    //                 <Button className="mx-1" variant="primary" onClick={()=>handleBuy(item.IDCOMPONENT)}>+</Button> 
-                                    //                 <Badge bg="secondary" pill>{item.STOCK}</Badge> 
-                                    //                 <Button className="mx-1" variant="danger" onClick={()=>handleDelete(item.IDCOMPONENT)}>-</Button>
-                                    //             </Col>
-                                    //         </Row>
-                                    //     </ListGroup.Item>
-                                    // ))
                                     }
                                 </ListGroup>
                             </Row>
@@ -192,7 +178,7 @@ function Shop() {
                                 <Col className="mt-2"> Total: {Math.abs( totalCash )} <img style={{lineHeight: '0',height: '1rem'}} src="https://cdn.discordapp.com/attachments/866354544544055346/914201994342850590/Asset_10.svg" /></Col>
                                 {cart.length!==0?<Col style={{textAlign: "right"}}>
                                     <Button className="mt-2 me-2" variant="danger" onClick={()=>clearList()}> Clear List </Button>
-                                    <Button className="mt-2" variant="primary" onClick={()=>StoreService.buyComponents(cart)}>Buy</Button> 
+                                    <Button className="mt-2" variant="primary" onClick={()=>buyItems()}>Buy</Button> 
                                 </Col>:null}
                             </Row>
                         </Container>

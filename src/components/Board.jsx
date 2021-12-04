@@ -19,6 +19,7 @@ function Board(props) {
         var json = require('./teams.json'); 
         GameServices.getPerson(setAdmin)
         setTeams(json)
+        GameServices.getTime()
     },[]);
 
     function setKeys() {
