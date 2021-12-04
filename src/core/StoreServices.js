@@ -10,7 +10,14 @@ const StoreService ={
             throw error;
             }
             if (data) {
-                setItems(data)
+              data = data.flatMap(function(item){
+                if(item.STOCK == 0){
+                  return []
+                }else{
+                  return item
+                }
+              })
+              setItems(data)
             }
         } catch (error) {
             alert(error.message);
@@ -23,7 +30,6 @@ const StoreService ={
           })
           .then(function (response) {
             setModalText(response.data.message)
-            
           })
           .catch(function (error) {
             console.log(error);

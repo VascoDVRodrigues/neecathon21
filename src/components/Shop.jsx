@@ -76,7 +76,6 @@ function Shop() {
         }
         setModal(true)
     }
-    console.log(money)
     function handleBuy(id){
         let element = findElement(id);
 
