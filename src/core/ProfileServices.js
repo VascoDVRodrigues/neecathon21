@@ -1,4 +1,3 @@
-import axios from "axios";
 import supabaseClient from "../utils/supabaseClient";
 
 const ProfileServices = {

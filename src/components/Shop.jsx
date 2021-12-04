@@ -5,14 +5,14 @@ import ShopItem from "./ShopItem";
 import supabaseClient from "../utils/supabaseClient";
 import { Navigate, useLocation } from "react-router-dom"
 import StoreService from '../core/StoreServices'
+
 function Shop() {
     let location = useLocation()
     const [items, setItems] = useState(undefined);
     const [cart, setCart] = useState([]);
     const [totalCash, setTotalCash] = useState(0.0);
     const [totalItems, setTotalItems] = useState(0.0);
-    
-
+    const [money, setMoney] = useState(0);
 
     //For the shopping list overlay
     const [show, setShow] = useState(false);
@@ -21,10 +21,8 @@ function Shop() {
     const handleShow = () => setShow(true);
 
     useEffect(() => {
-        StoreService.getComponents(setItems)
-        //fetch('https://fakestoreapi.com/products')
-        //    .then(res=>res.json())
-        //    .then(json=>setItems(json))
+        StoreService.getComponents(setItems) 
+        StoreService.getTeamMoney(setMoney)
     },[]);
 
     function clearList(){
@@ -40,7 +38,6 @@ function Shop() {
         for (let index = 0; index < items.length; index++) {
             element = items[index];
             if (element.IDCOMPONENT === id) {
-                //found the element
                 return element;
             }
         }
@@ -49,7 +46,6 @@ function Shop() {
     
     function handleDelete(id){
         let element = findElement(id);
-
         for (var i = 0; i < cart.length; i++) {
             if (cart[i].id === id ){
                 if (cart[i].quantity === 1){
@@ -68,7 +64,6 @@ function Shop() {
             } 
         }  
     }
-
     // const popover = (
     //     <Popover id="popover-basic">
     //       <Popover.Header as="h3">Shopping List</Popover.Header>
@@ -90,10 +85,9 @@ function Shop() {
     //         </Popover.Body>
     //     </Popover>
     // );
-    
+    console.log(money)
     function handleBuy(id){
         let element = findElement(id);
-        // console.log("Found element with id %d", id, element);
 
         if(element === undefined){
             return;
@@ -123,11 +117,9 @@ function Shop() {
             }
         }  
     }
-
     if(supabaseClient.auth.user()===null){
       return(<Navigate to="/login" state={{ from: location }}/>)
     }
-
     if(items === undefined){
         return (
             <Container>
@@ -144,7 +136,7 @@ function Shop() {
         return (
             <Container fluid >
                 <Row className="text-center mb-4">
-                    <Col/>
+                    <Col>Team Budget: {money!==undefined?money:0}<img style={{lineHeight: '0',height: '1rem'}} src="https://cdn.discordapp.com/attachments/866354544544055346/914201994342850590/Asset_10.svg" /></Col>
                     <Col xs={6}><h1 className="display-4 font-weight-normal" >Shop</h1></Col>
                     <Col  className="justify-content-flex-end">
                         {/* <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
@@ -198,10 +190,10 @@ function Shop() {
                         <Container> 
                             <Row as="h4" >
                                 <Col className="mt-2"> Total: {Math.abs( totalCash )} <img style={{lineHeight: '0',height: '1rem'}} src="https://cdn.discordapp.com/attachments/866354544544055346/914201994342850590/Asset_10.svg" /></Col>
-                                <Col style={{textAlign: "right"}}>
+                                {cart.length!==0?<Col style={{textAlign: "right"}}>
                                     <Button className="mt-2 me-2" variant="danger" onClick={()=>clearList()}> Clear List </Button>
-                                    <Button className="mt-2" variant="primary" > Buy </Button> 
-                                </Col>
+                                    <Button className="mt-2" variant="primary" onClick={()=>StoreService.buyComponents(cart)}>Buy</Button> 
+                                </Col>:null}
                             </Row>
                         </Container>
                     </Offcanvas>
