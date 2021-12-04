@@ -1,5 +1,5 @@
 import React, { useState , useEffect} from "react";
-import {Container , Row , Col ,Spinner, Button, ListGroup, Badge, Offcanvas, Modal} from "react-bootstrap"
+import {Container , Row , Col ,Spinner, Button, ListGroup, Badge, Offcanvas, Modal, Card} from "react-bootstrap"
 import { FaShoppingCart } from 'react-icons/fa';
 import ShopItem from "./ShopItem";
 import supabaseClient from "../utils/supabaseClient";
@@ -134,14 +134,18 @@ function Shop() {
                     </Button>
                     </Modal.Footer>
                 </Modal>
-                <Row className="text-center mb-4">
-                    <Col className="justify-content-flex-end">Team Budget: {money!==undefined?money:0}<img style={{lineHeight: '0',height: '1rem'}} src="https://cdn.discordapp.com/attachments/866354544544055346/914201994342850590/Asset_10.svg" /></Col>
+                <Row className="text-center mb-4" style={{alignItems: "center"}}>
+                    <Col className="justify-content-flex-end">
+                        <Card style={{ width: '18rem', display: "inline-block"}}>
+                            <Card.Body><Col className="my-auto justify-content-flex-end h6">Team Budget: {money!==undefined?money:0} <img style={{lineHeight: '0',height: '1rem'}} src="https://cdn.discordapp.com/attachments/866354544544055346/914201994342850590/Asset_10.svg" /></Col></Card.Body>
+                        </Card>
+                    </Col>
                     <Col xs={6}><h1 className="display-4 font-weight-normal" >Shop</h1></Col>
                     <Col  className="justify-content-flex-end">
                         {/* <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
                             <Button className = "mt-3" size="lg" variant="light" ><FaShoppingCart/> View Cart</Button>
                         </OverlayTrigger> */}
-                        <Button variant="primary" className="mt-4" onClick={handleShow}> 
+                        <Button variant="primary"  onClick={handleShow}> 
                             <FaShoppingCart className="me-2"/> View Cart <Badge pill bg="secondary">{totalItems}</Badge>
                         </Button>
                     </Col>
