@@ -44,21 +44,31 @@ const ProfileServices = {
         throw error;
       }
       if (data) {
+        data.sort((a, b) => {
+          return a.IDCOMPONENT - b.IDCOMPONENT;
+        });
         var array = new Array();
+        var prevID = -1;
         for (const component of data) {
-          var item = { QUANTITY: component.QUANTITY };
-          try {
-            let { data, error, status } = await supabaseClient.from("Components").select(`*`).eq("IDCOMPONENT", component.IDCOMPONENT);
+          if (prevID === component.IDCOMPONENT) {
+            array[array.length - 1].QUANTITY += component.QUANTITY;
+            //console.log(prevID, component);
+          } else {
+            var item = { QUANTITY: component.QUANTITY };
+            try {
+              let { data, error, status } = await supabaseClient.from("Components").select(`*`).eq("IDCOMPONENT", component.IDCOMPONENT);
 
-            if (error && status !== 406) {
-              throw error;
+              if (error && status !== 406) {
+                throw error;
+              }
+              if (data) {
+                item.NAME = data[0].NAME;
+                array.push(item);
+              }
+            } catch (error) {
+              alert(error.message);
             }
-            if (data) {
-              item.NAME = data[0].NAME;
-              array.push(item);
-            }
-          } catch (error) {
-            alert(error.message);
+            prevID = component.IDCOMPONENT;
           }
         }
         setTeamComponents(array);
