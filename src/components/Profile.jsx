@@ -26,6 +26,7 @@ function Profile() {
     }
 
     if(team === undefined || teamMembers === undefined || teamComponents === undefined || teamHouses === undefined ){
+        console.log("ola", team, teamMembers, teamComponents, teamHouses);
         return (
             <Container>
                 <Row className="text-center mb-4">
@@ -51,11 +52,6 @@ function Profile() {
                                 Descrição motivacional de equipa
                             </Card.Text>
                         </Card.Body>
-                        {/*<ListGroup className="list-group-flush">
-                            <ListGroupItem>Cras justo odio</ListGroupItem>
-                            <ListGroupItem>Dapibus ac facilisis in</ListGroupItem>
-                            <ListGroupItem>Vestibulum at eros</ListGroupItem>
-    </ListGroup>*/}
                     </Card>
                 </Col>
                 <Col className="pt-4 pb-4 p-2" >
@@ -88,7 +84,7 @@ function Profile() {
                     <Col className="p-0 mb-3"   lg={{ span: 5}}>
                     <Card >
                             <Card.Header as="h5">Inventário:</Card.Header>
-                            <ListGroup as="ul"  variant="flush" style={{maxHeight: '48vh', marginBottom: '10px', WebkitOverflowScrolling: 'touch'}}>                     
+                            <ListGroup as="ul"  variant="flush" style={{maxHeight: '48vh', marginBottom: '10px', overflow: "auto"}}>                     
                             {teamComponents === undefined?null:teamComponents.map((component,i)  => (
                                 <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
                                     <div className="ms-2 me-auto">
@@ -104,7 +100,7 @@ function Profile() {
                     <Col className="p-0 mb-3"   lg={{ span: 5}}>
                     <Card >
                             <Card.Header as="h5">Lista de Casas: </Card.Header>
-                            <ListGroup as="ul" variant="flush">
+                            <ListGroup as="ul" variant="flush" style={{maxHeight: '48vh', marginBottom: '10px', overflow: "auto"}}>
                             {teamHouses === undefined?null:teamHouses.map(House => (
                                     <ListGroup.Item as="li" style={{backgroundColor: House.COLOR}}>{House.NAME}</ListGroup.Item>
                             ))}
