@@ -48,7 +48,7 @@ function Profile() {
             <Row>
                 <Col className="pt-4 pb-4 p-2 col-sm-auto" md="auto"> 
                     <Card style={{ width: '80vw', maxWidth: '22rem', 'margin': '0 auto' }}>
-                        <Card.Img variant="top" src={team[0].IMAGE === null?"https://media.discordapp.net/attachments/866354544544055346/915249222079615006/blank-profile-picture-973460_640.png":team[0].IMAGE} />
+                        <Card.Img variant="top" style={{maxHeight: "30vh", objectFit: "contain", backgroundColor: "#b5c6cf"}} src={team[0].IMAGE === null?"https://media.discordapp.net/attachments/866354544544055346/915249222079615006/blank-profile-picture-973460_640.png":team[0].IMAGE} />
                         <Card.Body>
                             <Card.Title>{team[0].NAME}</Card.Title>
                             <Card.Text>
@@ -75,7 +75,7 @@ function Profile() {
                             <Card.Header as="h5">Informações de Jogo: </Card.Header>
                             <ListGroup as="ul"  variant="flush">
                             <ListGroup.Item as="li">NEECoins: {team[0].CASH} <img style={{lineHeight: '0',height: '1rem'}} src="https://cdn.discordapp.com/attachments/866354544544055346/914201994342850590/Asset_10.svg" /></ListGroup.Item>
-                            <ListGroup.Item as="li">Número de Casa Compradas: {team[0].HOUSE}</ListGroup.Item>
+                            <ListGroup.Item as="li">Número de Casas Compradas: {team[0].HOUSE}</ListGroup.Item>
 
                             </ListGroup>
                         </Card>
@@ -87,7 +87,7 @@ function Profile() {
                     <Col className="p-0 mb-3"   lg={{ span: 5}}>
                     <Card >
                             <Card.Header as="h5">Inventário:</Card.Header>
-                            <ListGroup as="ul"  variant="flush" style={{maxHeight: '48vh', marginBottom: '10px', overflow: "auto"}}>                     
+                            <ListGroup as="ul"  variant="flush" style={{maxHeight: '35vh', marginBottom: '10px', overflow: "auto"}}>                     
                             {teamComponents === undefined?null:teamComponents.map((component,i)  => (
                                 <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
                                     <div className="ms-2 me-auto">

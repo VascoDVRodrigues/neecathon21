@@ -125,10 +125,10 @@ function Shop() {
     }else{
         return (
             <Container fluid >
-                <Modal show={modal} onHide={()=>setModal(false)}>
+                <Modal show={modal} onHide={()=>{setModalText("");setModal(false)}}>
                     <Modal.Body>{modalText}</Modal.Body>
                     <Modal.Footer>
-                    <Button variant="secondary" onClick={()=>setModal(false)}>
+                    <Button variant="secondary" onClick={()=>{setModalText("");setModal(false)}}>
                         Close
                     </Button>
                     </Modal.Footer>
