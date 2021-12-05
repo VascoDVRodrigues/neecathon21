@@ -1,5 +1,6 @@
 import React, { useState , useEffect, Component} from "react";
 import {Container , Row , Col, Card, ListGroupItem, Badge, ListGroup, Spinner, Popover, OverlayTrigger, Button , Offcanvas} from "react-bootstrap"
+import { createClient } from "@supabase/supabase-js";
 
 import supabaseClient from "../utils/supabaseClient";
 import { Navigate, useLocation } from "react-router-dom"
@@ -20,6 +21,8 @@ function Profile() {
         ProfileServices.getTeamHouses(setTeamHouses)
     },[])
     
+    
+
 
     if(supabaseClient.auth.user()===null){
         return(<Navigate to="/login" state={{ from: location }}/>)
@@ -62,7 +65,7 @@ function Profile() {
                             <Card.Header as="h5">Equipa:</Card.Header>
                             <ListGroup as="ul" variant="flush">
                             {teamMembers === undefined?null:teamMembers.map(member => (
-                                    <ListGroup.Item as="li">{member}</ListGroup.Item>
+                                    <ListGroup.Item as="li">{member.name}</ListGroup.Item>
                             ))}
                             </ListGroup>
                         </Card>

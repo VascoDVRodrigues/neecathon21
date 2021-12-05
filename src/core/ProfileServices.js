@@ -18,18 +18,13 @@ const ProfileServices = {
 
   getTeamMembers: async function (setTeamMembers) {
     try {
-      let { data, error, status } = await supabaseClient.from("TeamMembers").select(`*`);
+      let { data, error, status } = await supabaseClient.rpc("get_team_members");
 
       if (error && status !== 406) {
         throw error;
       }
       if (data) {
-        var array = [];
-
-        data.forEach((element) => {
-          array.push(element.Name);
-        });
-        setTeamMembers(array);
+        setTeamMembers(data);
       }
     } catch (error) {
       alert(error.message);
