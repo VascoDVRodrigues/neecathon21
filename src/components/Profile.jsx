@@ -1,5 +1,5 @@
 import React, { useState , useEffect} from "react";
-import {Container , Row , Col, Card, Badge, ListGroup, Spinner, Popover, OverlayTrigger,} from "react-bootstrap"
+import {Container , Row , Col, Card, Badge, ListGroup, Spinner, Popover, OverlayTrigger} from "react-bootstrap"
 
 import supabaseClient from "../utils/supabaseClient";
 import { Navigate, useLocation } from "react-router-dom"
@@ -19,7 +19,8 @@ function Profile() {
         ProfileServices.getTeamComponents(setTeamComponents)
         ProfileServices.getTeamHouses(setTeamHouses)
     },[])
-    
+
+
 
     if(supabaseClient.auth.user()===null){
         return(<Navigate to="/login" state={{ from: location }}/>)
@@ -39,7 +40,6 @@ function Profile() {
             </Container>      
         );
     }else{
-    console.log("ola", team, teamMembers, teamComponents, teamHouses);
     return(
         <Container fluid="lg">
             <Row>

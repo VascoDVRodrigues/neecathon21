@@ -17,7 +17,18 @@ const StoreService = {
             return item;
           }
         });
-        setItems(data);
+
+        let orderedData = data;
+        orderedData.sort(function (a, b) {
+          if (a.NAME < b.NAME) {
+            return -1;
+          }
+          if (a.NAME > b.NAME) {
+            return 1;
+          }
+          return 0;
+        });
+        setItems(orderedData);
       }
     } catch (error) {
       alert(error.message);
@@ -40,9 +51,9 @@ const StoreService = {
   },
   getTeamMoney: async function (setMoney) {
     try {
-      let { data, error, status } = await supabaseClient.from("Teams").select(`*`);
+      const { data, error } = await supabaseClient.rpc("get_user_team_object");
 
-      if (error && status !== 406) {
+      if (error) {
         throw error;
       }
       if (data) {

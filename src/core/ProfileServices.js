@@ -3,9 +3,9 @@ import supabaseClient from "../utils/supabaseClient";
 const ProfileServices = {
   getTeam: async function (setTeam) {
     try {
-      let { data, error, status } = await supabaseClient.from("Teams").select(`*`);
+      const { data, error } = await supabaseClient.rpc("get_user_team_object");
 
-      if (error && status !== 406) {
+      if (error) {
         throw error;
       }
       if (data) {
