@@ -166,9 +166,9 @@ function Shop() {
                                                         <Col className="my-auto"> {element.NAME} </Col>
                                                         {/* no ideia why mas className="text-end" nao funciona, mas text-center ja funciona */}
                                                         <Col className="my-auto" style={{textAlign: "right"}}>  
-                                                            <Button className="mx-1" variant="primary" onClick={()=>handleBuy(element.IDCOMPONENT)}>+</Button> 
-                                                            <Badge bg="secondary" pill>{item.quantity}</Badge> 
                                                             <Button className="mx-1" variant="danger" onClick={()=>handleDelete(element.IDCOMPONENT)}>-</Button>
+                                                            <Badge bg="secondary" pill>{item.quantity}</Badge> 
+                                                            <Button className="mx-1" variant="primary" onClick={()=>handleBuy(element.IDCOMPONENT)}>+</Button> 
                                                         </Col>
                                                     </Row>
                                                 </ListGroup.Item>
