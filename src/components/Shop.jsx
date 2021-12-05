@@ -136,7 +136,7 @@ function Shop() {
                 <Row className="text-center mb-4" style={{alignItems: "center"}}>
                     <Col className="justify-content-flex-end">
                         <Card style={{ width: '18rem', display: "inline-block"}}>
-                            <Card.Body><Col className="my-auto justify-content-flex-end h6">Team Budget: {money!==undefined?money:0} <img style={{lineHeight: '0',height: '1rem'}} src="https://cdn.discordapp.com/attachments/866354544544055346/914201994342850590/Asset_10.svg" /></Col></Card.Body>
+                            <Card.Body><Col className="my-auto justify-content-flex-end h6">Team Budget: {money!==undefined?money:0} <img alt="" style={{lineHeight: '0',height: '1rem'}} src="https://cdn.discordapp.com/attachments/866354544544055346/914201994342850590/Asset_10.svg" /></Col></Card.Body>
                         </Card>
                     </Col>
                     <Col xs={6}><h1 className="display-4 font-weight-normal" >Shop</h1></Col>
@@ -178,7 +178,7 @@ function Shop() {
                         </Offcanvas.Body>
                         <Container> 
                             <Row as="h4" >
-                                <Col className="mt-2"> Total: {Math.abs( totalCash )} <img style={{lineHeight: '0',height: '1rem'}} src="https://cdn.discordapp.com/attachments/866354544544055346/914201994342850590/Asset_10.svg" /></Col>
+                                <Col className="mt-2"> Total: {Math.abs( totalCash )} <img alt="" style={{lineHeight: '0',height: '1rem'}} src="https://cdn.discordapp.com/attachments/866354544544055346/914201994342850590/Asset_10.svg" /></Col>
                                 {cart.length!==0?<Col style={{textAlign: "right"}}>
                                     <Button className="mt-2 me-2" variant="danger" onClick={()=>clearList()}> Clear List </Button>
                                     <Button className="mt-2" variant="primary" onClick={()=>buyItems()}>Buy</Button> 

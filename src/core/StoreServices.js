@@ -11,7 +11,7 @@ const StoreService ={
             }
             if (data) {
               data = data.flatMap(function(item){
-                if(item.STOCK == 0){
+                if(item.STOCK === 0){
                   return []
                 }else{
                   return item

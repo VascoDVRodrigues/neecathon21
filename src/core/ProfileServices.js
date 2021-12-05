@@ -47,7 +47,7 @@ const ProfileServices = {
         data.sort((a, b) => {
           return a.IDCOMPONENT - b.IDCOMPONENT;
         });
-        var array = new Array();
+        var array = [];
         var prevID = -1;
         for (const component of data) {
           if (prevID === component.IDCOMPONENT) {
@@ -87,7 +87,7 @@ const ProfileServices = {
       }
       if (data) {
         console.log(data);
-        var array = new Array();
+        var array = [];
         for (const house of data) {
           var item = { IDHOUSE: house.IDHOUSE, NAME: "", COLOR: "" };
           try {

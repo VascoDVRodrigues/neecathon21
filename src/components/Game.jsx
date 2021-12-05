@@ -1,5 +1,5 @@
-import React, { useState , useEffect} from "react";
-import {Container , Row , Col, Spinner} from "react-bootstrap"
+import React from "react";
+import {Container , Row , Col} from "react-bootstrap"
 import supabaseClient from "../utils/supabaseClient";
 import { Navigate, useLocation } from "react-router-dom"
 
