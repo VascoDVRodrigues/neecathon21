@@ -30,10 +30,12 @@ const StoreService = {
         token: supabaseClient.auth.currentSession.access_token,
       })
       .then(function (response) {
+        console.log(response);
         setModalText(response.data.message);
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error.response);
+        setModalText(error.response.data.message);
       });
   },
   getTeamMoney: async function (setMoney) {
