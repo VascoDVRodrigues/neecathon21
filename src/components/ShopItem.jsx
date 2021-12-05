@@ -24,9 +24,12 @@ function ShopItem(props) {
             {/* <Container >  */}
                 <Button className="mb-2" variant="primary" onClick = {()=>props.action(props.id)}>Add to Cart</Button>
             {/* </Container> */}
-            <ListGroup variant="flush">
-                <ListGroup.Item as="h5">{props.price+" "}<img alt="" style={{lineHeight: '0',height: '1rem'}} src="https://cdn.discordapp.com/attachments/866354544544055346/914201994342850590/Asset_10.svg" /></ListGroup.Item>
+            <ListGroup horizontal variant="flush" className=" border-0 justify-content-around">
+                <ListGroup.Item className="border-0" as="h5">{props.price+" "}<img style={{lineHeight: '0',height: '1rem'}} src="https://cdn.discordapp.com/attachments/866354544544055346/914201994342850590/Asset_10.svg" /></ListGroup.Item>
+                <ListGroup.Item className="border-0" as="h5">Only {props.stock} left!</ListGroup.Item>
             </ListGroup>
+            <Button variant="secondary" as="a" href={props.datasheet} target="_blank">Datasheet</Button>
+
         </Card>     
     );
 }

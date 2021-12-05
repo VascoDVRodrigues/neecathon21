@@ -88,8 +88,16 @@ function Profile() {
                             {teamComponents === undefined?null:teamComponents.map((component,i)  => (
                                 <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
                                     <div className="ms-2 me-auto">
-                                        {component.NAME}
-
+                                        <OverlayTrigger trigger="hover" key={"bottom"} placement={"bottom"} overlay={
+                                            <Popover id={`popover-positioned-${"bottom"}`}>
+                                                <Popover.Header as="h3">Clica para aceder a datasheet</Popover.Header>
+                                                <Popover.Body>
+                                                    <img alt="" style={{maxWidth: "-webkit-fill-available"}}src={component.IMAGE}></img>
+                                                </Popover.Body>
+                                            </Popover>
+                                        }>
+                                        <a href={component.REFSHEET} target="_blank">{component.NAME}</a>
+                                        </OverlayTrigger>
                                     </div>
                                     <Badge variant="primary" pill>{component.QUANTITY}</Badge>
                                 </ListGroup.Item>
