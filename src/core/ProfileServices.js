@@ -58,6 +58,8 @@ const ProfileServices = {
               }
               if (data) {
                 item.NAME = data[0].NAME;
+                item.REFSHEET = data[0].REFSHEET;
+                item.IMAGE = data[0].IMAGE;
                 array.push(item);
               }
             } catch (error) {

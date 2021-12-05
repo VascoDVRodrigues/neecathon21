@@ -110,6 +110,7 @@ function Shop() {
     if(supabaseClient.auth.user()===null){
       return(<Navigate to="/login" state={{ from: location }}/>)
     }
+    console.log(items)
     if(items === undefined){
         return (
             <Container>
@@ -189,7 +190,7 @@ function Shop() {
                 </Row>
                 <Row>        
                     {items.map((item, index) => (
-                        <ShopItem key={index} title = {item.NAME} img = {item.IMAGE} price = {item.PRICE} id = {item.IDCOMPONENT} action = {handleBuy}/>
+                        <ShopItem key={index} title = {item.NAME} img = {item.IMAGE} price = {item.PRICE} id = {item.IDCOMPONENT} action = {handleBuy} stock = {item.STOCK} datasheet = {item.REFSHEET}/>
                     ))}
                 </Row>
             </Container>       
