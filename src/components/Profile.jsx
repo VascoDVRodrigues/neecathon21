@@ -1,4 +1,4 @@
-import React, { useState , useEffect, Component} from "react";
+import React, { useState , useEffect} from "react";
 import {Container , Row , Col, Card, Badge, ListGroup, Spinner} from "react-bootstrap"
 
 import supabaseClient from "../utils/supabaseClient";
@@ -71,7 +71,7 @@ function Profile() {
                         <Card >
                             <Card.Header as="h5">Informações de Jogo: </Card.Header>
                             <ListGroup as="ul"  variant="flush">
-                            <ListGroup.Item as="li">NEECoins: {team[0].CASH} <img style={{lineHeight: '0',height: '1rem'}} src="https://cdn.discordapp.com/attachments/866354544544055346/914201994342850590/Asset_10.svg" /></ListGroup.Item>
+                            <ListGroup.Item as="li">NEECoins: {team[0].CASH} <img alt="" style={{lineHeight: '0',height: '1rem'}} src="https://cdn.discordapp.com/attachments/866354544544055346/914201994342850590/Asset_10.svg" /></ListGroup.Item>
                             <ListGroup.Item as="li">Número de Casa Compradas: {team[0].HOUSE}</ListGroup.Item>
 
                             </ListGroup>
