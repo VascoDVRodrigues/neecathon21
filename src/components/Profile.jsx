@@ -62,7 +62,7 @@ function Profile() {
                             <Card.Header as="h5">Equipa:</Card.Header>
                             <ListGroup as="ul" variant="flush">
                             {teamMembers === undefined?null:teamMembers.map(member => (
-                                    <ListGroup.Item as="li">{member}</ListGroup.Item>
+                                    <ListGroup.Item as="li">{member.name}</ListGroup.Item>
                             ))}
                             </ListGroup>
                         </Card>

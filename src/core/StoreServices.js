@@ -25,7 +25,7 @@ const StoreService = {
   },
   buyComponents: async function (cart, setModalText) {
     axios
-      .post("http://localhost:5000/buy", {
+      .post("http://backend.neecist.xyz/buy", {
         itemList: cart,
         token: supabaseClient.auth.currentSession.access_token,
       })
