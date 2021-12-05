@@ -9,7 +9,7 @@ In the project directory, you can run:
 ### `npm start`
 
 Runs the app in the development mode.\
-Open [http://neecathon.neecist.xyz](http://neecathon.neecist.xyz) to view it in the browser.
+Open [http://keen-feynman-6f073c.netlify.app](http://keen-feynman-6f073c.netlify.app) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
