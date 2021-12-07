@@ -102,7 +102,7 @@ function Profile() {
                                             <Popover id={`popover-positioned-${"bottom"}`}>
                                                 <Popover.Header as="h3">Clica para aceder a datasheet</Popover.Header>
                                                 <Popover.Body>
-                                                    <img alt="" style={{maxWidth: "-webkit-fill-available"}}src={component.IMAGE}></img>
+                                                    <img alt="" style={{maxWidth: "100%"}}src={component.IMAGE}></img>
                                                 </Popover.Body>
                                             </Popover>
                                         }>
