@@ -68,12 +68,26 @@ function Shop() {
     }
     function buyItems(){
         if(totalCash>money){
-            setModalText("Woohoo, you don't have enough money to buy the components! ")
+            setModalText("Woohoo, não tens dinheiro suficiente para comprar os componentes! ")
         }else{
             StoreService.buyComponents(cart, setModalText)
             setMoney(money-totalCash)
             clearList()
         }
+        setModal(true)
+    }
+    function handleRequestComponent(){
+        setModalText(<div><h3>Requisitar Componentes</h3>
+            <form style={{display:"flex", flexWrap:"warp", flexDirection:"column"}}>
+                <label >Nome do component:</label>
+                <input type="text" id="componentname" name="componentname"/><br />
+                <label >Link para compra:</label>
+                <input type="text" id="componentlink" name="componentlink"/><br />
+                <label>Quantidade:</label>
+                <input type="text" id="componentquantity" name="componentquantity"/><br />
+                <Button className="mt-1 " variant="success" onClick={()=>StoreService.requestComponent(document.getElementById('componentname').value,document.getElementById('componentlink').value,document.getElementById('componentquantity').value, setModalText)}>Requisitar</Button>
+            </form>
+            </div>)
         setModal(true)
     }
     function handleBuy(id){
@@ -110,14 +124,13 @@ function Shop() {
     if(supabaseClient.auth.user()===null){
       return(<Navigate to="/login" state={{ from: location }}/>)
     }
-    console.log(items)
     if(items === undefined){
         return (
             <Container>
                 <Row className="text-center mb-4">
                 <Col>
                         <Spinner className="mt-3" animation="border" role="status">
-                            <span className="visually-hidden">Loading...</span>
+                            <span className="visually-hidden">A Carregar...</span>
                         </Spinner>
                     </Col>
                 </Row>
@@ -129,7 +142,7 @@ function Shop() {
                 <Modal show={modal} onHide={()=>{setModalText("");setModal(false)}}>
                     <Modal.Body>{modalText}</Modal.Body>
                     <Modal.Footer>
-                    <Button variant="secondary" onClick={()=>{setModalText("");setModal(false)}}>
+                    <Button variant="danger" onClick={()=>{setModalText("");setModal(false)}}>
                         Close
                     </Button>
                     </Modal.Footer>
@@ -137,23 +150,26 @@ function Shop() {
                 <Row className="text-center mb-4" style={{alignItems: "center"}}>
                     <Col className="justify-content-flex-end">
                         <Card style={{ width: '18rem', display: "inline-block"}}>
-                            <Card.Body><Col className="my-auto justify-content-flex-end h6">Team Budget: {money!==undefined?money:0} <img alt="" style={{lineHeight: '0',height: '1rem'}} src="https://cdn.discordapp.com/attachments/866354544544055346/914201994342850590/Asset_10.svg" /></Col></Card.Body>
+                            <Card.Body><Col className="my-auto justify-content-flex-end h6">Budget: {money!==undefined?money:0} <img alt="" style={{lineHeight: '0',height: '1rem'}} src="https://cdn.discordapp.com/attachments/866354544544055346/914201994342850590/Asset_10.svg" /></Col></Card.Body>
                         </Card>
                     </Col>
-                    <Col xs={6}><h1 className="display-4 font-weight-normal" >Shop</h1></Col>
+                    <Col xs={6}><h1 className="display-4 font-weight-normal" >Loja</h1></Col>
                     <Col  className="justify-content-flex-end">
                         {/* <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
                             <Button className = "mt-3" size="lg" variant="light" ><FaShoppingCart/> View Cart</Button>
                         </OverlayTrigger> */}
                         <Button variant="primary"  onClick={handleShow}> 
-                            <FaShoppingCart className="me-2"/> View Cart <Badge pill bg="secondary">{totalItems}</Badge>
+                            <FaShoppingCart className="me-2"/> Ver Carro <Badge pill bg="secondary">{totalItems}</Badge>
+                        </Button>
+                        <Button variant="warning" className="mx-2 " onClick={handleRequestComponent}> 
+                            Faltam componentes?
                         </Button>
                     </Col>
                     
                     {/* OFFCANVAS that shows the shopping list */}
                     <Offcanvas show={show} onHide={handleClose} placement="end">
                         <Offcanvas.Header closeButton>
-                            <Offcanvas.Title as="h3">Shopping List</Offcanvas.Title>
+                            <Offcanvas.Title as="h3">Lista de Compras</Offcanvas.Title>
                         </Offcanvas.Header>
                         <Offcanvas.Body>
                             <Row> 
@@ -181,8 +197,8 @@ function Shop() {
                             <Row as="h4" >
                                 <Col className="mt-2"> Total: {Math.abs( totalCash )} <img alt="" style={{lineHeight: '0',height: '1rem'}} src="https://cdn.discordapp.com/attachments/866354544544055346/914201994342850590/Asset_10.svg" /></Col>
                                 {cart.length!==0?<Col style={{textAlign: "right"}}>
-                                    <Button className="mt-2 me-2" variant="danger" onClick={()=>clearList()}> Clear List </Button>
-                                    <Button className="mt-2" variant="primary" onClick={()=>buyItems()}>Buy</Button> 
+                                    <Button className="mt-2 me-2" variant="danger" onClick={()=>clearList()}> Limpar Carro </Button>
+                                    <Button className="mt-2" variant="primary" onClick={()=>buyItems()}>Comprar</Button> 
                                 </Col>:null}
                             </Row>
                         </Container>

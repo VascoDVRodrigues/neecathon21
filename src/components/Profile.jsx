@@ -1,5 +1,5 @@
 import React, { useState , useEffect} from "react";
-import {Container , Row , Col, Card, Badge, ListGroup, Spinner, Popover, OverlayTrigger} from "react-bootstrap"
+import {Container , Row , Col, Card, Badge, ListGroup, Spinner, Popover, OverlayTrigger, Button} from "react-bootstrap"
 
 import supabaseClient from "../utils/supabaseClient";
 import { Navigate, useLocation } from "react-router-dom"
@@ -12,14 +12,23 @@ function Profile() {
     const [teamMembers, setTeamMembers] = useState(undefined);
     const [teamComponents, setTeamComponents] = useState(undefined);
     const [teamHouses, setTeamHouses] = useState(undefined);
+    const [admin, setAdmin] = useState(false);
 
     useEffect(() => {
+        ProfileServices.getPerson(setAdmin)
         ProfileServices.getTeam(setTeam)
         ProfileServices.getTeamMembers(setTeamMembers)
         ProfileServices.getTeamComponents(setTeamComponents)
         ProfileServices.getTeamHouses(setTeamHouses)
     },[])
+    
 
+    function componentsList() {
+        var allComponents;
+        ProfileServices.getAllComponents(allComponents);
+        console.log(allComponents);
+
+    }
 
 
     if(supabaseClient.auth.user()===null){
@@ -27,13 +36,12 @@ function Profile() {
     }
 
     if(team === undefined || teamMembers === undefined || teamComponents === undefined || teamHouses === undefined ){
-        console.log("ola", team, teamMembers, teamComponents, teamHouses);
         return (
             <Container>
                 <Row className="text-center mb-4">
                 <Col>
                     <Spinner className="mt-3" animation="border" role="status">
-                        <span className="visually-hidden">Loading...</span>
+                        <span className="visually-hidden">A Carregar...</span>
                     </Spinner>
                 </Col>
                 </Row>
@@ -51,6 +59,8 @@ function Profile() {
                             <Card.Text>
                                 Descrição motivacional de equipa
                             </Card.Text>
+                            {admin?<Card.Text><Button variant="warning" className="mx-2 " onClick={componentsList}>Obter lista de componentes por equipa;</Button></Card.Text>:null}
+                            
                         </Card.Body>
                     </Card>
                 </Col>
@@ -72,7 +82,7 @@ function Profile() {
                             <Card.Header as="h5">Informações de Jogo: </Card.Header>
                             <ListGroup as="ul"  variant="flush">
                             <ListGroup.Item as="li">NEECoins: {team[0].CASH} <img alt="" style={{lineHeight: '0',height: '1rem'}} src="https://cdn.discordapp.com/attachments/866354544544055346/914201994342850590/Asset_10.svg" /></ListGroup.Item>
-                            <ListGroup.Item as="li">Número de Casa Compradas: {team[0].HOUSE}</ListGroup.Item>
+                            <ListGroup.Item as="li">Casa atual no tabuleiro: {team[0].HOUSE}</ListGroup.Item>
 
                             </ListGroup>
                         </Card>
@@ -96,7 +106,7 @@ function Profile() {
                                                 </Popover.Body>
                                             </Popover>
                                         }>
-                                        <a href={component.REFSHEET} target="_blank">{component.NAME}</a>
+                                        <a href={component.REFSHEET} target="_blank" rel="noreferrer">{component.NAME}</a>
                                         </OverlayTrigger>
                                     </div>
                                     <Badge variant="primary" pill>{component.QUANTITY}</Badge>
