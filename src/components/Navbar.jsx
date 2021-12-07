@@ -13,12 +13,12 @@ export default function MyNav() {
 
         <Nav>
           <Nav.Link className="text-light" href="/game">Home</Nav.Link> 
-          <Nav.Link className="text-light" href="/shop">Shop</Nav.Link>
+          <Nav.Link className="text-light" href="/shop">Loja</Nav.Link>
         </Nav>
         
         <Navbar.Collapse className="justify-content-end">
-          <NavDropdown align="end" style={{color: "#ffffff"}} title="My Team">
-            <NavDropdown.Item href="/profile">Team Profile</NavDropdown.Item>
+          <NavDropdown align="end" style={{color: "#ffffff"}} title="Minha Equipa">
+            <NavDropdown.Item href="/profile">Perfil da Equipa</NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item onClick={()=>supabaseClient.auth.signOut()} href="http://localhost:3000/">Logout</NavDropdown.Item>
           </NavDropdown>

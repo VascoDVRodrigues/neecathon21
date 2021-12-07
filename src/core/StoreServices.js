@@ -11,7 +11,7 @@ const StoreService = {
       }
       if (data) {
         data = data.flatMap(function (item) {
-          if (item.STOCK == 0) {
+          if (item.STOCK === 0) {
             return [];
           } else {
             return item;
@@ -62,6 +62,27 @@ const StoreService = {
     } catch (error) {
       alert(error.message);
     }
+  },
+  requestComponent: async function (name, link, quantity, setModalText) {
+    console.log(name + link + quantity);
+    let obj = {
+      name: name,
+      link: link,
+      quantity: quantity,
+    };
+    axios
+      .post("http://backend.neecist.xyz/requestComponent", {
+        componentObject: obj,
+        token: supabaseClient.auth.currentSession.access_token,
+      })
+      .then(function (response) {
+        console.log(response);
+        setModalText(response.data.message);
+      })
+      .catch(function (error) {
+        console.log(error.response);
+        setModalText(error.response.data.message);
+      });
   },
 };
 
