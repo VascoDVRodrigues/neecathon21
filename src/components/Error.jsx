@@ -6,7 +6,7 @@ function Error() {
     return (
         <Container>
             <Row className="text-center mb-4">
-                <Col><h1 className="display-4 font-weight-normal" >:( 404 Page not found :(</h1></Col>
+                <Col><h1 className="display-4 font-weight-normal" >Nem o Hackerboy conseguiu encontrar esta página!</h1></Col>
             </Row>
         </Container>       
     );

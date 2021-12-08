@@ -3,8 +3,9 @@ import {Container , Row , Col, Card, Badge, ListGroup, Spinner, Popover, Overlay
 
 import supabaseClient from "../utils/supabaseClient";
 import { Navigate, useLocation } from "react-router-dom"
-
+import {CSVDownload} from "react-csv";
 import ProfileServices from "../core/ProfileServices";
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
 function Profile() {
     let location = useLocation()
@@ -13,21 +14,36 @@ function Profile() {
     const [teamComponents, setTeamComponents] = useState(undefined);
     const [teamHouses, setTeamHouses] = useState(undefined);
     const [admin, setAdmin] = useState(false);
-
+    const [allComponents, setallComponents] = useState(undefined);
     useEffect(() => {
         ProfileServices.getPerson(setAdmin)
         ProfileServices.getTeam(setTeam)
         ProfileServices.getTeamMembers(setTeamMembers)
         ProfileServices.getTeamComponents(setTeamComponents)
         ProfileServices.getTeamHouses(setTeamHouses)
+        ProfileServices.getAllComponents(setallComponents);
     },[])
     
 
-    function componentsList() {
-        var allComponents;
-        ProfileServices.getAllComponents(allComponents);
+function componentsList() {
+        
+        var final = [];
         console.log(allComponents);
+        allComponents.forEach(Team => {
+            console.log(allComponents, final);
+            final.push([`Equipa ${Team[0].IDTEAM-1}`, "Nome", "Quantidade"]);
 
+            Team.forEach(component => {
+                final.push([" ", component.NAME.replaceAll("\n", " "), component.QUANTITY]);
+            });
+            
+        });
+        console.log(final);
+        let csvContent = "data:text/csv;charset=UTF-8 with BOM," 
+        + final.map(e => e.join(",")).join("\n");
+        var encodedUri = encodeURI(csvContent);
+        window.open(encodedUri);
+        <CSVDownload data={final} target="_blank" />;
     }
 
 
@@ -58,6 +74,8 @@ function Profile() {
                             <Card.Title>{team[0].NAME}</Card.Title>
                             <Card.Text>
                                 Descrição motivacional de equipa
+                                
+
                             </Card.Text>
                             {admin?<Card.Text><Button variant="warning" className="mx-2 " onClick={componentsList}>Obter lista de componentes por equipa;</Button></Card.Text>:null}
                             
@@ -98,7 +116,7 @@ function Profile() {
                             {teamComponents === undefined?null:teamComponents.map((component,i)  => (
                                 <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
                                     <div className="ms-2 me-auto">
-                                        <OverlayTrigger trigger="hover" key={"bottom"} placement={"bottom"} overlay={
+                                        <OverlayTrigger trigger={['hover', 'focus']} key={"bottom"} placement={"bottom"} overlay={
                                             <Popover id={`popover-positioned-${"bottom"}`}>
                                                 <Popover.Header as="h3">Clica para aceder a datasheet</Popover.Header>
                                                 <Popover.Body>

@@ -1,15 +1,21 @@
 import React from "react";
 import LeaderboardElement from "./LeaderboardElement";
 
+
 function Leaderboard(props) {
-    var sortedTeams = props.teams
-
-    sortedTeams.sort((a,b) => b.coins - a.coins);
-
+    var teams = props.teams
+    
+    
+    teams = teams.flatMap((team) =>{
+        if( team.IDTEAM === 1){console.log(team); return []}
+        return team;
+    })
+    teams.sort((a,b) => a.IDTEAM - b.IDTEAM);
+    
     return (
         <div>
-            {sortedTeams.map((item, index) => (
-                <LeaderboardElement key={index} name={item.name} coins={item.coins}/>
+            {teams.map((item, index) => (
+               <LeaderboardElement key={index} name={item.NAME} coins={item.CASH} color={item.COLOR} position = {item.HOUSE}/>
             ))}
         </div>  
     );

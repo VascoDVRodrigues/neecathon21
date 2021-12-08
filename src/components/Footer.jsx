@@ -13,7 +13,7 @@ export default function Footer(){
                     <SocialIcon className="m-1" target="_blank" bgColor="#FB2253" fgColor="white" style={{height: "35px", width: "35px"}} url="https://www.instagram.com/neecist/"/>
                     <SocialIcon className="m-1" target="_blank" fgColor="white" style={{height: "35px", width: "35px"}} url="https://www.linkedin.com/company/neecist/mycompany/"/>
                     <SocialIcon className="m-1" target="_blank" fgColor="white" style={{height: "35px", width: "35px"}} url="https://www.youtube.com/user/NEECIST"/>
-                    {/* <SocialIcon className="m-1" fgColor="white" style={{height: "35px", width: "35px"}} url="https://neecist.org/"/> */}
+                    <SocialIcon className="m-1" target="_blank" fgColor="white" style={{height: "35px", width: "35px"}} url="https://neecist.org/"/>
                 </Col>
             </Row>
         </footer>

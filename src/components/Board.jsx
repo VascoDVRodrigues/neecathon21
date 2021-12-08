@@ -5,47 +5,69 @@ import BoardCell from "./BoardCell";
 import Leaderboard from "./Leaderboard";
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import GameServices from "../core/GameServices";
+import supabaseClient from "../utils/supabaseClient"
 
 import "./styles.css";
 
-const TIME_BETWEEN_PLAYS = 15; //in minutes
-
 function Board(props) {
-    const [key, setKey] = useState(0);
+    const [key] = useState(0);
     const [teams, setTeams] = useState(undefined);
     const [admin, setAdmin] = useState(false);
+    const [time, setTime] = useState(0);
 
-    useEffect(() => {
-        var json = require('./teams.json'); 
+    useEffect(() => { 
         GameServices.getPerson(setAdmin)
-        setTeams(json)
-        GameServices.getTime()
+        GameServices.getTeams(setTeams);
+        GameServices.getTime(setTime);
+        supabaseClient
+            .from('Teams')
+            .on('*', payload => {
+                GameServices.getTeams(setTeams);
+                console.log('Change received!', payload)
+        }).subscribe()
     },[]);
+    
+   function getHouseColor(id){
+        let teamId = null
+        
+        for (var i = 0; i < props.houses.length; i++) {
+            if (props.houses[i].IDHOUSE === id){
+                teamId=props.houses[i].IDTEAM
+                
+            }
+        }
+        if (teamId===null)
+            return "#ffffff"
 
-    function setKeys() {
-        setKey(key + 1)
-    }
-
+        for (i = 0; i < teams.length; i++) {
+            if (teams[i].IDTEAM === teamId){
+                
+                return teams[i].COLOR
+            }
+        }
+   }
     const renderTime = (time) => {
+        //console.log(time)
         let secs = (time % 60);
         let mins = (time - secs)/60;
         return (
           <div className="timer">
-            <div>{ mins }</div>
+            <div>{mins}</div>
             <div>Minutes</div>
             <div>{secs}</div>
             <div>Seconds</div>
           </div>
         );
       };
-        
+
+
     if(teams === undefined){
         return (
             <Container>
                 <Row className="text-center mb-4">
                     <Col>
                         <Spinner className="mt-3" animation="border" role="status">
-                            <span className="visually-hidden">Loading...</span>
+                            <span className="visually-hidden">A Carregar...</span>
                         </Spinner>
                     </Col>
                 </Row>
@@ -56,93 +78,95 @@ function Board(props) {
             <Container className="mt-3" fluid>
                 <Row>
                     <Col>
-                    <Leaderboard teams={teams.teams}/> 
+                    <Leaderboard teams={teams} /> 
                     </Col>
-
                     <Col md="5">
                 <CardGroup>
-                    <BoardCell title={props.board[0].name}/>
-                    <BoardCell title={props.board[1].name}/>
-                    <BoardCell title={props.board[2].name}/>
-                    <BoardCell title={props.board[3].name}/>
-                    <BoardCell title={props.board[4].name}/>
-                    <BoardCell title={props.board[5].name}/>
-                    <BoardCell title={props.board[6].name}/>
+                    <BoardCell IMAGE={props.houses[6].IMAGES} color = {getHouseColor(6)}/>
+                    <BoardCell IMAGE={props.houses[7].IMAGES} color = {getHouseColor(7)}/>
+                    <BoardCell IMAGE={props.houses[8].IMAGES} color = {getHouseColor(8)}/>
+                    <BoardCell IMAGE={props.houses[9].IMAGES} color = {getHouseColor(9)}/>
+                    <BoardCell IMAGE={props.houses[10].IMAGES} color = {getHouseColor(10)}/>
+                    <BoardCell IMAGE={props.houses[11].IMAGES} color = {getHouseColor(11)}/>
+                    <BoardCell IMAGE={props.houses[12].IMAGES} color = {getHouseColor(12)}/>
                 </CardGroup>
 
                 <CardGroup>
-                    <BoardCell title={props.board[23].name}/>
+                    <BoardCell IMAGE={props.houses[5].IMAGES} color = {getHouseColor(5)}/>
                     <Col> </Col>
                     <Col> </Col>
                     <Col> </Col>
                     <Col> </Col>
                     <Col> </Col>
-                    <BoardCell title={props.board[7].name}/>  
+                    <BoardCell IMAGE={props.houses[13].IMAGES} color = {getHouseColor(13)}/>  
                 </CardGroup>
 
                 <CardGroup>
-                    <BoardCell title={props.board[22].name}/>
+                    <BoardCell IMAGE={props.houses[4].IMAGES} color = {getHouseColor(4)}/>
                     <Col></Col>
                     <Col></Col>
                     <Col></Col>
                     <Col></Col>
                     <Col></Col>
-                    <BoardCell title={props.board[8].name}/>
+                    <BoardCell IMAGE={props.houses[14].IMAGES} color = {getHouseColor(14)}/>
                 </CardGroup>  
 
                 <CardGroup>
-                    <BoardCell title={props.board[21].name}/>
+                    <BoardCell IMAGE={props.houses[3].IMAGES} color = {getHouseColor(3)}/>
                     <Col></Col>
                     <Col></Col>
-                    <Col className="my-auto">{admin?<Button onClick={()=>setKeys()} variant="primary">Roll</Button>:null}</Col>
+                    <Col className="my-auto">{admin?<Button onClick={()=>GameServices.rollDice()} variant="primary">Roll</Button>:null}</Col>
                     <Col></Col>
                     <Col></Col>
-                    <BoardCell title={props.board[9].name}/>
+                    <BoardCell IMAGE={props.houses[15].IMAGES} color = {getHouseColor(15)}/>
                 </CardGroup>
 
                 <CardGroup>
-                    <BoardCell title={props.board[20].name}/>
+                    <BoardCell IMAGE={props.houses[2].IMAGES} color = {getHouseColor(2)}/>
                     <Col></Col>
                     <Col></Col>
                     <Col></Col>
                     <Col></Col>
                     <Col></Col>
-                    <BoardCell title={props.board[10].name}/>
+                    <BoardCell IMAGE={props.houses[16].IMAGES} color = {getHouseColor(16)}/>
                 </CardGroup>
 
                 <CardGroup>
-                    <BoardCell title={props.board[19].name}/>
+                    <BoardCell IMAGE={props.houses[1].IMAGES} color = {getHouseColor(1)}/>
                     <Col></Col>
                     <Col></Col>
                     <Col></Col>
                     <Col></Col>
                     <Col></Col>
-                    <BoardCell title={props.board[11].name}/>
+                    <BoardCell IMAGE={props.houses[17].IMAGES} color = {getHouseColor(17)}/>
                 </CardGroup>
                 
                 <CardGroup>
-                    <BoardCell title={props.board[18].name}/>
-                    <BoardCell title={props.board[17].name}/>
-                    <BoardCell title={props.board[16].name}/>
-                    <BoardCell title={props.board[15].name}/>
-                    <BoardCell title={props.board[14].name}/>
-                    <BoardCell title={props.board[13].name}/>
-                    <BoardCell title={props.board[12].name}/>
+                    <BoardCell IMAGE={props.houses[0].IMAGES} color = {getHouseColor(0)} />
+                    <BoardCell IMAGE={props.houses[23].IMAGES} color = {getHouseColor(23)}/>
+                    <BoardCell IMAGE={props.houses[22].IMAGES} color = {getHouseColor(22)}/>
+                    <BoardCell IMAGE={props.houses[21].IMAGES} color = {getHouseColor(21)}/>
+                    <BoardCell IMAGE={props.houses[20].IMAGES} color = {getHouseColor(20)}/>
+                    <BoardCell IMAGE={props.houses[19].IMAGES} color = {getHouseColor(19)}/>
+                    <BoardCell IMAGE={props.houses[18].IMAGES} color = {getHouseColor(18)}/>
                 </CardGroup>
                 </Col>
                 <Col> 
                     <Card>
                         <Card.Body> 
                             <Card.Title>Time until next play</Card.Title>
-                            <Card.Text>
+                            <Card.Body>
                                 <div className="timer-wrapper"> 
-                                    <CountdownCircleTimer key={key} isPlaying duration={TIME_BETWEEN_PLAYS * 60} colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000', 0.33]]}>
+                                    <CountdownCircleTimer key={key} isPlaying initialRemainingTime={time} duration={60*60} colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000', 0.33]]}>
                                         {({ remainingTime }) => renderTime(remainingTime)} 
                                     </CountdownCircleTimer>
                                 </div>
-                            </Card.Text>
+                            </Card.Body>
                         </Card.Body>
                     </Card> 
+                    <Button className="mt-3"> Comecar próxima jogada </Button>
+                    <Button className="mt-3"> Passar para a próxima equipa </Button>
+
                 </Col>
                 </Row>
             </Container>    
