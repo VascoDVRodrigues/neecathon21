@@ -25,7 +25,6 @@ const ProfileServices = {
         throw error;
       }
       if (data) {
-        console.log(data);
         setTeam(data);
       }
     } catch (error) {
@@ -126,7 +125,7 @@ const ProfileServices = {
       alert(error.message);
     }
   },
-  getAllComponents: async function (allComponents) {
+  getAllComponents: async function (setallComponents) {
     try {
       let { data, error, status } = await supabaseClient.from("Components|Team").select(`*`);
 
@@ -141,11 +140,12 @@ const ProfileServices = {
         var prevTeamID = 0;
         var componentsByTeam = [];
         var team = [];
-        console.log(data);
         data.forEach((component) => {
           if (prevTeamID === 0) {
             team = [];
             team.push(component);
+            prevTeamID = component.IDTEAM;
+            //console.log(team);
           } else if (prevTeamID === component.IDTEAM) {
             team.push(component);
           } else if (prevTeamID !== component.IDTEAM) {
@@ -154,7 +154,8 @@ const ProfileServices = {
             team = [];
           }
         });
-
+        //console.log(componentsByTeam);
+        var final = [];
         componentsByTeam.map(async (team) => {
           team.sort((a, b) => {
             return a.IDCOMPONENT - b.IDCOMPONENT;
@@ -175,6 +176,7 @@ const ProfileServices = {
                 }
                 if (data) {
                   item.NAME = data[0].NAME;
+                  item.IDTEAM = component.IDTEAM;
                   array.push(item);
                 }
               } catch (error) {
@@ -183,9 +185,10 @@ const ProfileServices = {
               prevID = component.IDCOMPONENT;
             }
           }
-          return array;
+          final.push(array);
         });
-        allComponents = componentsByTeam;
+        console.log(final);
+        setallComponents(final);
       }
     } catch (error) {
       alert(error.message);
