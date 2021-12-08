@@ -1,6 +1,6 @@
 import React from "react";
 import { useState , useEffect} from "react";
-import { Container, CardGroup, Button, Row, Col, Spinner, Card} from "react-bootstrap"
+import { Container, CardGroup, Button, Row, Col, Spinner, Card, Form, Modal} from "react-bootstrap"
 import BoardCell from "./BoardCell";
 import Leaderboard from "./Leaderboard";
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
@@ -14,6 +14,8 @@ function Board(props) {
     const [teams, setTeams] = useState(undefined);
     const [admin, setAdmin] = useState(false);
     const [time, setTime] = useState(0);
+    const [modalText, setModalText] = useState("")
+    const [modalShow, setModalShow] = useState(false)
 
     useEffect(() => { 
         GameServices.getPerson(setAdmin)
@@ -23,6 +25,7 @@ function Board(props) {
             .from('Teams')
             .on('*', payload => {
                 GameServices.getTeams(setTeams);
+                GameServices.getTime(setTime);
                 console.log('Change received!', payload)
         }).subscribe()
     },[]);
@@ -46,8 +49,8 @@ function Board(props) {
             }
         }
    }
+    
     const renderTime = (time) => {
-        //console.log(time)
         let secs = (time % 60);
         let mins = (time - secs)/60;
         return (
@@ -76,6 +79,14 @@ function Board(props) {
     } else {
         return (
             <Container className="mt-3" fluid>
+                <Modal show={modalShow} onHide={()=>{setModalText("");setModalShow(false)}}>
+                    <Modal.Body>{modalText}</Modal.Body>
+                    <Modal.Footer>
+                    <Button variant="danger" onClick={()=>{setModalText("");setModalShow(false)}}>
+                        Close
+                    </Button>
+                    </Modal.Footer>
+                </Modal>
                 <Row>
                     <Col>
                     <Leaderboard teams={teams} /> 
@@ -115,7 +126,21 @@ function Board(props) {
                     <BoardCell IMAGE={props.houses[3].IMAGES} color = {getHouseColor(3)}/>
                     <Col></Col>
                     <Col></Col>
-                    <Col className="my-auto">{admin?<Button onClick={()=>GameServices.rollDice()} variant="primary">Roll</Button>:null}</Col>
+                    <Col className="my-auto">{admin?
+                    <div>
+                        <Form.Select id="teamPlayingId" aria-label="Equipa a jogar">
+                            {
+                            teams.flatMap((item) =>{
+                                if( item.IDTEAM !== 1&&item.IDTEAM !==0){
+                                    return <option value={item.IDTEAM}>{item.NAME}</option> 
+                                }else{
+                                    return null
+                                }
+                            })
+                            }
+                        </Form.Select>
+                        <Button onClick={()=>GameServices.rollDice(document.getElementById("teamPlayingId").value, setModalShow, setModalText)} variant="primary">Roll</Button>
+                    </div>:null}</Col>
                     <Col></Col>
                     <Col></Col>
                     <BoardCell IMAGE={props.houses[15].IMAGES} color = {getHouseColor(15)}/>
@@ -164,8 +189,6 @@ function Board(props) {
                             </Card.Body>
                         </Card.Body>
                     </Card> 
-                    <Button className="mt-3"> Comecar próxima jogada </Button>
-                    <Button className="mt-3"> Passar para a próxima equipa </Button>
 
                 </Col>
                 </Row>

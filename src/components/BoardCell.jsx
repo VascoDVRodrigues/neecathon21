@@ -28,6 +28,7 @@ function BoardCell(props) {
     }
     let border = "solid 4px " + props.color
     return (
+        
         <Card style={{border:border}}>
             <Card.Img src={props.IMAGE}/>
         </Card>     
