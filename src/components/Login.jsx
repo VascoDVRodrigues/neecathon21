@@ -1,4 +1,4 @@
-import {Container , Row , Col, Card , Button} from "react-bootstrap"
+import {Container , Row , Card , Button} from "react-bootstrap"
 import { Auth } from "@supabase/ui";
 import signIn from "../utils/signIn";
 import supabaseClient from "../utils/supabaseClient";
