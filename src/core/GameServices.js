@@ -1,6 +1,6 @@
 import axios from "axios";
 import supabaseClient from "../utils/supabaseClient";
-import { Button} from "react-bootstrap"
+import { Button } from "react-bootstrap";
 
 const GameServices = {
   getTeams: async function (setTeams) {
@@ -54,6 +54,7 @@ const GameServices = {
         throw error;
       }
       if (data) {
+        data.sort((a, b) => a.IDHOUSE - b.IDHOUSE);
         setHouses(data);
       }
     } catch (error) {
@@ -64,19 +65,46 @@ const GameServices = {
     axios
       .post("http://backend.neecist.xyz/throwDices", {
         token: supabaseClient.auth.currentSession.access_token,
-        team: teamId
+        team: teamId,
       })
       .then(function (response) {
-        let modalText= ""
-     
-         
-          //let payload = response.data.text
-          //if (response.data.buyable===true){
-          //  payload += <Button></Button>
-          //}
+        let modalText = "";
+        if (response.data.status === "Success") {
+          modalText = response.data.description;
+          if (response.data.interactable) {
+            //modalText += <Button onClick={console.log("boas")}>Buy</Button>;
+            setModalText([
+              modalText,
+              <Button
+                onClick={() => {
+                  GameServices.buyHouse(response.data.teamID);
+                  console.log("boas");
+                }}
+              >
+                Buy
+              </Button>,
+            ]);
+          } else {
+            setModalText(modalText);
+          }
+
+          setModalShow(true);
+        }
+
         console.log(response);
-        setModalText(modalText)
-        setModalShow(true)
+      })
+      .catch(function (error) {
+        console.log(error.response);
+      });
+  },
+  buyHouse: function (teamID) {
+    axios
+      .post("http://backend.neecist.xyz/buyPatent", {
+        token: supabaseClient.auth.currentSession.access_token,
+        team: teamID,
+      })
+      .then(function (response) {
+        console.log(response);
       })
       .catch(function (error) {
         console.log(error.response);

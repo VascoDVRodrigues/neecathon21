@@ -11,6 +11,8 @@ const ProfileServices = {
       if (data) {
         if (data.length !== 1) {
           setAdmin(true);
+        } else {
+          setAdmin(false);
         }
       }
     } catch (error) {
@@ -47,7 +49,7 @@ const ProfileServices = {
     }
   },
 
-  getTeamComponents: async function (setTeamComponents) {
+  getTeamComponents: async function (setComponents) {
     try {
       let { data, error, status } = await supabaseClient.from("Components|Team").select(`*`);
 
@@ -55,6 +57,16 @@ const ProfileServices = {
         throw error;
       }
       if (data) {
+        console.log(data);
+        // var multiple = 0;
+        // var teamID = data[0].IDTEAM;
+        // for (const component of data) {
+        //   if (teamID !== component.IDTEAM) {
+        //     multiple = 1;
+        //     break;
+        //   }
+        // }
+        // if (multiple === 0) {
         data.sort((a, b) => {
           return a.IDCOMPONENT - b.IDCOMPONENT;
         });
@@ -84,7 +96,66 @@ const ProfileServices = {
             prevID = component.IDCOMPONENT;
           }
         }
-        setTeamComponents(array);
+        setComponents(array);
+        // } else {
+        //   console.log(data);
+        //   data.sort((a, b) => {
+        //     return a.IDTEAM - b.IDTEAM;
+        //   });
+
+        //   var prevTeamID = 0;
+        //   var componentsByTeam = [];
+        //   var team = [];
+        //   data.forEach((component) => {
+        //     if (prevTeamID === 0) {
+        //       team = [];
+        //       team.push(component);
+        //       prevTeamID = component.IDTEAM;
+        //       //console.log(team);
+        //     } else if (prevTeamID === component.IDTEAM) {
+        //       team.push(component);
+        //     } else if (prevTeamID !== component.IDTEAM) {
+        //       prevTeamID = component.IDTEAM;
+        //       componentsByTeam.push(team);
+        //       team = [];
+        //     }
+        //   });
+        //   //console.log(componentsByTeam);
+        //   var final = [];
+        //   componentsByTeam.map(async (team) => {
+        //     team.sort((a, b) => {
+        //       return a.IDCOMPONENT - b.IDCOMPONENT;
+        //     });
+        //     var prevID = -1;
+        //     var array = [];
+        //     for (const component of team) {
+        //       if (prevID === component.IDCOMPONENT) {
+        //         array[array.length - 1].QUANTITY += component.QUANTITY;
+        //         //console.log(prevID, component);
+        //       } else {
+        //         var item = { QUANTITY: component.QUANTITY };
+        //         try {
+        //           let { data, error, status } = await supabaseClient.from("Components").select(`*`).eq("IDCOMPONENT", component.IDCOMPONENT);
+
+        //           if (error && status !== 406) {
+        //             throw error;
+        //           }
+        //           if (data) {
+        //             item.NAME = data[0].NAME;
+        //             item.IDTEAM = component.IDTEAM;
+        //             array.push(item);
+        //           }
+        //         } catch (error) {
+        //           alert(error.message);
+        //         }
+        //         prevID = component.IDCOMPONENT;
+        //       }
+        //     }
+        //     final.push(array);
+        //   });
+        //   console.log(final);
+        //   setComponents(final);
+        // }
       }
     } catch (error) {
       alert(error.message);
@@ -125,7 +196,7 @@ const ProfileServices = {
       alert(error.message);
     }
   },
-  getAllComponents: async function (setallComponents) {
+  getAllComponents: async function (setAllComponents) {
     try {
       let { data, error, status } = await supabaseClient.from("Components|Team").select(`*`);
 
@@ -140,6 +211,7 @@ const ProfileServices = {
         var prevTeamID = 0;
         var componentsByTeam = [];
         var team = [];
+        // console.log(data);
         data.forEach((component) => {
           if (prevTeamID === 0) {
             team = [];
@@ -154,6 +226,7 @@ const ProfileServices = {
             team = [];
           }
         });
+        componentsByTeam.push(team);
         //console.log(componentsByTeam);
         var final = [];
         componentsByTeam.map(async (team) => {
@@ -177,6 +250,8 @@ const ProfileServices = {
                 if (data) {
                   item.NAME = data[0].NAME;
                   item.IDTEAM = component.IDTEAM;
+                  item.REFSHEET = data[0].REFSHEET;
+                  item.IMAGE = data[0].IMAGE;
                   array.push(item);
                 }
               } catch (error) {
@@ -188,7 +263,7 @@ const ProfileServices = {
           final.push(array);
         });
         console.log(final);
-        setallComponents(final);
+        setAllComponents(final);
       }
     } catch (error) {
       alert(error.message);

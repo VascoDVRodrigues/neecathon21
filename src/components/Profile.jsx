@@ -5,7 +5,6 @@ import supabaseClient from "../utils/supabaseClient";
 import { Navigate, useLocation } from "react-router-dom"
 import {CSVDownload} from "react-csv";
 import ProfileServices from "../core/ProfileServices";
-import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
 function Profile() {
     let location = useLocation()
@@ -13,18 +12,17 @@ function Profile() {
     const [teamMembers, setTeamMembers] = useState(undefined);
     const [teamComponents, setTeamComponents] = useState(undefined);
     const [teamHouses, setTeamHouses] = useState(undefined);
-    const [admin, setAdmin] = useState(false);
-    const [allComponents, setallComponents] = useState(undefined);
+    const [admin, setAdmin] = useState(undefined);
+    const [allComponents, setAllComponents] = useState(undefined);
     useEffect(() => {
         ProfileServices.getPerson(setAdmin)
         ProfileServices.getTeam(setTeam)
         ProfileServices.getTeamMembers(setTeamMembers)
         ProfileServices.getTeamComponents(setTeamComponents)
         ProfileServices.getTeamHouses(setTeamHouses)
-        ProfileServices.getAllComponents(setallComponents);
+        ProfileServices.getAllComponents(setAllComponents);
     },[])
     
-
 function componentsList() {
         
         var final = [];
@@ -51,7 +49,7 @@ function componentsList() {
         return(<Navigate to="/login" state={{ from: location }}/>)
     }
 
-    if(team === undefined || teamMembers === undefined || teamComponents === undefined || teamHouses === undefined ){
+    if(team === undefined || teamMembers === undefined || teamComponents === undefined || allComponents.length < 0 || teamHouses === undefined || admin === undefined){
         return (
             <Container>
                 <Row className="text-center mb-4">
@@ -77,7 +75,7 @@ function componentsList() {
                                 
 
                             </Card.Text>
-                            {admin?<Card.Text><Button variant="warning" className="mx-2 " onClick={componentsList}>Obter lista de componentes por equipa;</Button></Card.Text>:null}
+                            {admin?<Card.Text><Button variant="warning" className="mx-2 " onClick={componentsList}>Obter lista de componentes por equipa(CSV);</Button></Card.Text>:null}
                             
                         </Card.Body>
                     </Card>
@@ -113,8 +111,8 @@ function componentsList() {
                     <Card >
                             <Card.Header as="h5">Inventário:</Card.Header>
                             <ListGroup as="ul"  variant="flush" style={{maxHeight: '35vh', marginBottom: '10px', overflow: "auto"}}>                     
-                            {teamComponents === undefined?null:teamComponents.map((component,i)  => (
-                                <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
+                            {teamComponents === undefined?null:teamComponents.map((component)  => (
+                                !admin?<ListGroup.Item as="li"  className="d-flex justify-content-between align-items-start">
                                     <div className="ms-2 me-auto">
                                         <OverlayTrigger trigger={['hover', 'focus']} key={"bottom"} placement={"bottom"} overlay={
                                             <Popover id={`popover-positioned-${"bottom"}`}>
@@ -128,7 +126,27 @@ function componentsList() {
                                         </OverlayTrigger>
                                     </div>
                                     <Badge variant="primary" pill>{component.QUANTITY}</Badge>
-                                </ListGroup.Item>
+                                </ListGroup.Item>:null
+                            ))}
+                            {console.log(allComponents)}
+                            {allComponents === undefined?null:allComponents.map((team)  => (
+                                [admin?<Card.Header as="h5">Inventário Equipa {team[0].IDTEAM-1}:</Card.Header>:null,                        
+                                admin?team.map((component) => (
+                                    <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
+                                    <div className="ms-2 me-auto">
+                                        <OverlayTrigger trigger={['hover', 'focus']} key={"bottom"} placement={"bottom"} overlay={
+                                            <Popover id={`popover-positioned-${"bottom"}`}>
+                                                <Popover.Header as="h3">Clica para aceder a datasheet</Popover.Header>
+                                                <Popover.Body>
+                                                    <img alt="" style={{maxWidth: "100%"}}src={component.IMAGE}></img>
+                                                </Popover.Body>
+                                            </Popover>
+                                        }>
+                                        <a href={component.REFSHEET} target="_blank" rel="noreferrer">{component.NAME}</a>
+                                        </OverlayTrigger>
+                                    </div>
+                                    <Badge variant="primary" pill>{component.QUANTITY}</Badge>
+                                </ListGroup.Item>)):null]                    
                             ))}
                             </ListGroup>
                         </Card>
