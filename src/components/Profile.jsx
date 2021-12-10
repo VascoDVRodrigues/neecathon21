@@ -3,7 +3,7 @@ import {Container , Row , Col, Card, Badge, ListGroup, Spinner, Popover, Overlay
 import { FaPencilAlt } from 'react-icons/fa';
 import supabaseClient from "../utils/supabaseClient";
 import { Navigate, useLocation } from "react-router-dom"
-
+import {CSVDownload} from "react-csv";
 import ProfileServices from "../core/ProfileServices";
 
 function Profile() {
@@ -26,14 +26,28 @@ function Profile() {
         ProfileServices.getTeamMembers(setTeamMembers)
         ProfileServices.getTeamComponents(setTeamComponents)
         ProfileServices.getTeamHouses(setTeamHouses)
+        ProfileServices.getAllComponents(setAllComponents);
     },[])
     
-
-    function componentsList() {
-        var allComponents;
-        ProfileServices.getAllComponents(allComponents);
+function componentsList() {
+        
+        var final = [];
         console.log(allComponents);
+        allComponents.forEach(Team => {
+            console.log(allComponents, final);
+            final.push([`Equipa ${Team[0].IDTEAM-1}`, "Nome", "Quantidade"]);
 
+            Team.forEach(component => {
+                final.push([" ", component.NAME.replaceAll("\n", " "), component.QUANTITY]);
+            });
+            
+        });
+        console.log(final);
+        let csvContent = "data:text/csv;charset=UTF-8 with BOM," 
+        + final.map(e => e.join(",")).join("\n");
+        var encodedUri = encodeURI(csvContent);
+        window.open(encodedUri);
+        <CSVDownload data={final} target="_blank" />;
     }
 
     function handlePictureChange(){
@@ -52,7 +66,7 @@ function Profile() {
         return(<Navigate to="/login" state={{ from: location }}/>)
     }
 
-    if(team === undefined || teamMembers === undefined || teamComponents === undefined || teamHouses === undefined ){
+    if(team === undefined || teamMembers === undefined || teamComponents === undefined || allComponents.length < 0 || teamHouses === undefined || admin === undefined){
         return (
             <Container>
                 <Row className="text-center mb-4">
@@ -84,8 +98,10 @@ function Profile() {
                             <Card.Title>{team[0].NAME}</Card.Title>
                             <Card.Text>
                                 Descrição motivacional de equipa
+                                
+
                             </Card.Text>
-                            {admin?<Card.Text><Button variant="warning" className="mx-2 " onClick={componentsList}>Obter lista de componentes por equipa;</Button></Card.Text>:null}
+                            {admin?<Card.Text><Button variant="warning" className="mx-2 " onClick={componentsList}>Obter lista de componentes por equipa(CSV);</Button></Card.Text>:null}
                             
                         </Card.Body>
                     </Card>
@@ -121,10 +137,10 @@ function Profile() {
                     <Card >
                             <Card.Header as="h5">Inventário:</Card.Header>
                             <ListGroup as="ul"  variant="flush" style={{maxHeight: '35vh', marginBottom: '10px', overflow: "auto"}}>                     
-                            {teamComponents === undefined?null:teamComponents.map((component,i)  => (
-                                <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
+                            {teamComponents === undefined?null:teamComponents.map((component)  => (
+                                !admin?<ListGroup.Item as="li"  className="d-flex justify-content-between align-items-start">
                                     <div className="ms-2 me-auto">
-                                        <OverlayTrigger trigger="hover" key={"bottom"} placement={"bottom"} overlay={
+                                        <OverlayTrigger trigger={['hover', 'focus']} key={"bottom"} placement={"bottom"} overlay={
                                             <Popover id={`popover-positioned-${"bottom"}`}>
                                                 <Popover.Header as="h3">Clica para aceder a datasheet</Popover.Header>
                                                 <Popover.Body>
@@ -136,7 +152,27 @@ function Profile() {
                                         </OverlayTrigger>
                                     </div>
                                     <Badge variant="primary" pill>{component.QUANTITY}</Badge>
-                                </ListGroup.Item>
+                                </ListGroup.Item>:null
+                            ))}
+                            {console.log(allComponents)}
+                            {allComponents === undefined?null:allComponents.map((team)  => (
+                                [admin?<Card.Header as="h5">Inventário Equipa {team[0].IDTEAM-1}:</Card.Header>:null,                        
+                                admin?team.map((component) => (
+                                    <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
+                                    <div className="ms-2 me-auto">
+                                        <OverlayTrigger trigger={['hover', 'focus']} key={"bottom"} placement={"bottom"} overlay={
+                                            <Popover id={`popover-positioned-${"bottom"}`}>
+                                                <Popover.Header as="h3">Clica para aceder a datasheet</Popover.Header>
+                                                <Popover.Body>
+                                                    <img alt="" style={{maxWidth: "100%"}}src={component.IMAGE}></img>
+                                                </Popover.Body>
+                                            </Popover>
+                                        }>
+                                        <a href={component.REFSHEET} target="_blank" rel="noreferrer">{component.NAME}</a>
+                                        </OverlayTrigger>
+                                    </div>
+                                    <Badge variant="primary" pill>{component.QUANTITY}</Badge>
+                                </ListGroup.Item>)):null]                    
                             ))}
                             </ListGroup>
                         </Card>
