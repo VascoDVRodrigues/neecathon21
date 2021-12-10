@@ -1,6 +1,6 @@
 import React, { useState , useEffect} from "react";
-import {Container , Row , Col, Card, Badge, ListGroup, Spinner, Popover, OverlayTrigger, Button} from "react-bootstrap"
-
+import {Container , Row , Col, Card, Badge, ListGroup, Spinner, Popover, OverlayTrigger, Button, Modal} from "react-bootstrap"
+import { FaPencilAlt } from 'react-icons/fa';
 import supabaseClient from "../utils/supabaseClient";
 import { Navigate, useLocation } from "react-router-dom"
 import {CSVDownload} from "react-csv";
@@ -14,6 +14,12 @@ function Profile() {
     const [teamHouses, setTeamHouses] = useState(undefined);
     const [admin, setAdmin] = useState(undefined);
     const [allComponents, setAllComponents] = useState(undefined);
+
+    const [modal, setModal] = useState(false);
+    const [modalText, setModalText] = useState("");
+
+
+
     useEffect(() => {
         ProfileServices.getPerson(setAdmin)
         ProfileServices.getTeam(setTeam)
@@ -44,6 +50,17 @@ function componentsList() {
         <CSVDownload data={final} target="_blank" />;
     }
 
+    function handlePictureChange(){
+        setModalText(<div><h3>Editar imagem de perfil:</h3>
+            <form style={{display:"flex", flexWrap:"warp", flexDirection:"column"}}>
+                <label >Para modificares a vossa imagem de perfil, coloca o link de uma imagem no campo abaixo:</label>
+                <input type="text" id="imageurl" name="imageurl"/><br />
+                <Button className="mt-1 " variant="success" onClick={()=>ProfileServices.changeImage(document.getElementById('imageurl').value, setModal)}>Submeter</Button>
+            </form>
+            </div>)
+        setModal(true)
+    }
+
 
     if(supabaseClient.auth.user()===null){
         return(<Navigate to="/login" state={{ from: location }}/>)
@@ -64,9 +81,18 @@ function componentsList() {
     }else{
     return(
         <Container fluid="lg">
+            <Modal show={modal} onHide={()=>{setModalText("");setModal(false)}}>
+                    <Modal.Body>{modalText}</Modal.Body>
+                    <Modal.Footer>
+                    <Button variant="danger" onClick={()=>{setModalText("");setModal(false)}}>
+                        Close
+                    </Button>
+                    </Modal.Footer>
+                </Modal>
             <Row>
                 <Col className="pt-4 pb-4 p-2 col-sm-auto" md="auto"> 
                     <Card style={{ width: '80vw', maxWidth: '22rem', 'margin': '0 auto' }}>
+                        <Button style={{position:"absolute", top: "1vh", right:"1vh"}}  variant="secondary" onClick={handlePictureChange}><FaPencilAlt/></Button>
                         <Card.Img variant="top" style={{maxHeight: "30vh", objectFit: "contain", backgroundColor: "#b5c6cf"}} src={team[0].IMAGE === null?"https://media.discordapp.net/attachments/866354544544055346/915249222079615006/blank-profile-picture-973460_640.png":team[0].IMAGE} />
                         <Card.Body>
                             <Card.Title>{team[0].NAME}</Card.Title>
