@@ -1,14 +1,17 @@
 import React, { useState , useEffect} from "react";
-import {Container , Row , Col, Card, Badge, ListGroup, Spinner, Popover, OverlayTrigger, Button, Modal} from "react-bootstrap"
+import {Container , Row , Col, Card, Badge, ListGroup, Spinner, Popover, OverlayTrigger, Button, Modal, FormLabel, Form} from "react-bootstrap"
 import { FaPencilAlt } from 'react-icons/fa';
+import { AiOutlineArrowDown } from 'react-icons/ai';
 import supabaseClient from "../utils/supabaseClient";
 import { Navigate, useLocation } from "react-router-dom"
 import {CSVDownload} from "react-csv";
 import ProfileServices from "../core/ProfileServices";
+import GameServices from "../core/GameServices";
 
 function Profile() {
     let location = useLocation()
     const [team, setTeam] = useState(undefined);
+    const [teams, setTeams] = useState(undefined);
     const [teamMembers, setTeamMembers] = useState(undefined);
     const [teamComponents, setTeamComponents] = useState(undefined);
     const [teamHouses, setTeamHouses] = useState(undefined);
@@ -27,8 +30,9 @@ function Profile() {
         ProfileServices.getTeamComponents(setTeamComponents)
         ProfileServices.getTeamHouses(setTeamHouses)
         ProfileServices.getAllComponents(setAllComponents);
+        GameServices.getTeams(setTeams);
     },[])
-    
+    console.log(team)
 function componentsList() {
         
         var final = [];
@@ -66,7 +70,7 @@ function componentsList() {
         return(<Navigate to="/login" state={{ from: location }}/>)
     }
 
-    if(team === undefined || teamMembers === undefined || teamComponents === undefined || allComponents.length < 0 || teamHouses === undefined || admin === undefined){
+    if(team === undefined || teamMembers === undefined || teamComponents === undefined || allComponents.length < 0 || teamHouses === undefined || admin === undefined || teams === undefined ){
         return (
             <Container>
                 <Row className="text-center mb-4">
@@ -98,11 +102,46 @@ function componentsList() {
                             <Card.Title>{team[0].NAME}</Card.Title>
                             <Card.Text>
                                 Descrição motivacional de equipa
-                                
-
                             </Card.Text>
                             {admin?<Card.Text><Button variant="warning" className="mx-2 " onClick={componentsList}>Obter lista de componentes por equipa(CSV);</Button></Card.Text>:null}
-                            
+                            {admin?<Card.Text>
+                                <Form className="text-center">
+                                    <Form.Label>Transferir entre equipas</Form.Label>
+                                    <Form.Select id="teamGivingId" aria-label="Equipa a jogar">
+                                        {
+                                        teams.flatMap((item) =>{
+                                            //if( item.IDTEAM !== 1&&item.IDTEAM !==0){
+                                            if(item.IDTEAM !==0){
+                                                return <option value={item.IDTEAM}>{item.NAME}</option> 
+                                            }else{
+                                                return null
+                                            }
+                                        })
+                                        }
+                                    </Form.Select>
+                                    <Form.Group >
+                                        <AiOutlineArrowDown />
+                                    </Form.Group>
+
+                                    <Form.Select id="teamRecievingId" aria-label="Equipa a jogar">
+                                        {
+                                        teams.flatMap((item) =>{
+                                            //if( item.IDTEAM !== 1&&item.IDTEAM !==0){
+                                            if(item.IDTEAM !==0){
+                                                return <option value={item.IDTEAM}>{item.NAME}</option> 
+                                            }else{
+                                                return null
+                                            }
+                                        })
+                                        }
+                                    </Form.Select>
+                                    <Form.Group className="mt-2 mb-2" controlId="Amount">
+                                        <Form.Control type="number" placeholder="Amount" />
+                                    </Form.Group>
+                                    <Button variant="primary" className="mx-2 " onClick={()=>ProfileServices.transferCoins(document.getElementById("teamGivingId").value,document.getElementById("teamRecievingId").value,document.getElementById("Amount").value)}>Transferir NEECoins <img alt="" style={{lineHeight: '0',height: '1rem'}} src="https://cdn.discordapp.com/attachments/866354544544055346/914201994342850590/Asset_10.svg" /></Button>
+
+                                </Form>
+                                </Card.Text>:null}
                         </Card.Body>
                     </Card>
                 </Col>

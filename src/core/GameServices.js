@@ -12,6 +12,8 @@ const GameServices = {
       }
 
       if (data) {
+        data.sort((a, b) => a.IDTEAM - b.IDTEAM);
+        //console.log(data);
         setTeams(data);
       }
     } catch (error) {

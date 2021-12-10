@@ -116,32 +116,36 @@ function Board(props) {
 
                 <CardGroup>
                     <BoardCell IMAGE={houses[5].IMAGES} color = {getHouseColor(5)}/>
-                    <Col style={{margin:"2px"}}></Col>
-                    <Col style={{margin:"2px"}}></Col>
-                    <Col style={{margin:"2px"}}></Col>
-                    <Col style={{margin:"2px"}}></Col>
-                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{margin:"0"}}></Col>
+                    <Col style={{margin:"0"}}></Col>
+                    <Col style={{position:"relative",margin:"0"}}>
+                        <div style={{position:"absolute", left:"50%"}}>
+                            <img alt="monopoly pug" style={{width:"800%", transform: "translateX(-50%) translateY(20%)"}} src="https://media.discordapp.net/attachments/866354544544055346/918928749314056242/unknown.png"></img>
+                        </div>
+                    </Col>
+                    <Col style={{margin:"0"}}></Col>
+                    <Col style={{margin:"0"}}></Col>
                     <BoardCell IMAGE={houses[13].IMAGES} color = {getHouseColor(13)}/>  
                 </CardGroup>
 
                 <CardGroup>
                     <BoardCell IMAGE={houses[4].IMAGES} color = {getHouseColor(4)}/>
-                    <Col style={{margin:"2px"}}></Col>
-                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{margin:"0"}}></Col>
+                    <Col style={{margin:"0"}}></Col>
                     <Col style={{position:"relative"}}>
                         <div style={{position:"absolute"}}>
-                            <img alt="monopoly pug" style={{width:"170%", transform: "translateX(-100%) translateY(-50%)"}} src="https://cdn.discordapp.com/attachments/866354544544055346/918863735051931668/PugMonopolyGuy_5.png"></img>
+                            <img alt="monopoly pug" style={{width:"170%", transform: "translateX(-100%) translateY(135%)"}} src="https://cdn.discordapp.com/attachments/866354544544055346/918863735051931668/PugMonopolyGuy_5.png"></img>
                         </div>
                     </Col>
-                    <Col style={{margin:"2px"}}></Col>
-                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{margin:"0"}}></Col>
+                    <Col style={{margin:"0"}}></Col>
                     <BoardCell IMAGE={houses[14].IMAGES} color = {getHouseColor(14)}/>
                 </CardGroup>  
 
                 <CardGroup>
                     <BoardCell IMAGE={houses[3].IMAGES} color = {getHouseColor(3)}/>
-                    <Col style={{margin:"2px"}}></Col>
-                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{margin:"0"}}></Col>
+                    <Col style={{margin:"0"}}></Col>
                     <Col style={{position:"relative"}}>{admin?
                     <div style={{position:"absolute", width:"max-content", left:"50%",transform:"translateX(-50%) translateY(25%)"}}>
                         <Form.Select id="teamPlayingId" aria-label="Equipa a jogar">
@@ -158,32 +162,32 @@ function Board(props) {
                         </Form.Select>
                         <Button className="mt-1" style={{width:"100%"}}onClick={()=>GameServices.rollDice(document.getElementById("teamPlayingId").value, setModalShow, setModalText)} variant="primary">Roll</Button>
                     </div>:null}</Col>
-                    <Col style={{margin:"2px"}}></Col>
-                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{margin:"0"}}></Col>
+                    <Col style={{margin:"0"}}></Col>
                     <BoardCell IMAGE={houses[15].IMAGES} color = {getHouseColor(15)}/>
                 </CardGroup>
 
                 <CardGroup>
                     <BoardCell IMAGE={houses[2].IMAGES} color = {getHouseColor(2)}/>
-                    <Col style={{margin:"2px"}}></Col>
-                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{margin:"0"}}></Col>
+                    <Col style={{margin:"0"}}></Col>
                     <Col style={{position:"relative"}}>
                         <div style={{position:"absolute"}}>
-                            <img alt="monopoly pug" style={{width:"170%", transform: "translateX(70%) translateY(25%) scale(-1, 1)"}} src="https://cdn.discordapp.com/attachments/866354544544055346/918869527440265286/PugRena_2.png"></img>
+                            <img alt="monopoly pug" style={{width:"170%", transform: "translateX(70%) translateY(15%) scale(-1, 1)"}} src="https://cdn.discordapp.com/attachments/866354544544055346/918869527440265286/PugRena_2.png"></img>
                         </div>
                     </Col>
-                    <Col style={{margin:"2px"}}></Col>
-                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{margin:"0"}}></Col>
+                    <Col style={{margin:"0"}}></Col>
                     <BoardCell IMAGE={houses[16].IMAGES} color = {getHouseColor(16)}/>
                 </CardGroup>
 
                 <CardGroup>
                     <BoardCell IMAGE={houses[1].IMAGES} color = {getHouseColor(1)}/>
-                    <Col style={{margin:"2px"}}></Col>
-                    <Col style={{margin:"2px"}}></Col>
-                    <Col style={{margin:"2px"}}></Col>
-                    <Col style={{margin:"2px"}}></Col>
-                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{margin:"0"}}></Col>
+                    <Col style={{margin:"0"}}></Col>
+                    <Col style={{margin:"0"}}></Col>
+                    <Col style={{margin:"0"}}></Col>
+                    <Col style={{margin:"0"}}></Col>
                     <BoardCell IMAGE={houses[17].IMAGES} color = {getHouseColor(17)}/>
                 </CardGroup>
                 

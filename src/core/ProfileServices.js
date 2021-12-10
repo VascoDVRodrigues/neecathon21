@@ -285,6 +285,24 @@ const ProfileServices = {
         console.log(error.response);
       });
   },
+  transferCoins: function (teamGivingId, teamRecievingId, Amount) {
+    console.log(teamGivingId + teamRecievingId + Amount);
+    if (Amount.length) {
+      axios
+        .post("http://backend.neecist.xyz/transferCoins", {
+          token: supabaseClient.auth.currentSession.access_token,
+          minusTeam: teamGivingId,
+          plusTeam: teamRecievingId,
+          value: Amount,
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error.response);
+        });
+    }
+  },
 };
 
 export default ProfileServices;
