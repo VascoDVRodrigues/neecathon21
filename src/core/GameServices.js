@@ -13,7 +13,6 @@ const GameServices = {
 
       if (data) {
         data.sort((a, b) => a.IDTEAM - b.IDTEAM);
-        //console.log(data);
         setTeams(data);
       }
     } catch (error) {
@@ -40,13 +39,10 @@ const GameServices = {
     axios
       .get("http://backend.neecist.xyz/rollTimer")
       .then(function (response) {
-        //console.log(response);
         let a = response.data.mm * 60 + response.data.ss;
         setTime(a);
       })
-      .catch(function (error) {
-        //console.log(error);
-      });
+      .catch(function (error) {});
   },
   getHouses: async function (setHouses) {
     try {
@@ -74,7 +70,6 @@ const GameServices = {
         if (response.data.status === "Success") {
           modalText = response.data.description;
           if (response.data.interactable) {
-            //modalText += <Button onClick={console.log("boas")}>Buy</Button>;
             setModalText([
               modalText,
               <Button
@@ -91,8 +86,6 @@ const GameServices = {
 
           setModalShow(true);
         }
-
-        console.log(response);
       })
       .catch(function (error) {
         console.log(error.response);
@@ -104,16 +97,13 @@ const GameServices = {
         token: supabaseClient.auth.currentSession.access_token,
         team: teamID,
       })
-      .then(function (response) {
-        console.log(response);
-      })
+      .then(function (response) {})
       .catch(function (error) {
         console.log(error.response);
       });
   },
   updateKey: function (setKey) {
     setKey(Math.random());
-    console.log("heres");
   },
 };
 

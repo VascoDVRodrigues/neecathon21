@@ -7,10 +7,10 @@ function LeaderboardElement(props) {
         <Card className="mb-1" style={{border: border}}>
             <Card.Body>
             <Card.Title> Team {props.name}</Card.Title>
-            <Card.Text>
-                <h6>You have {props.coins} coins yay</h6>  
+            <Card.Text as={"div"}>
+                <h6>You have {props.coins} coins!</h6>  
             </Card.Text>
-            <Card.Text>
+            <Card.Text as={"div"}>
                 {props.name==="Pot"?null:<h6>Currently on position {props.position}</h6>}
             </Card.Text>
             </Card.Body>

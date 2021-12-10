@@ -41,7 +41,6 @@ const StoreService = {
         token: supabaseClient.auth.currentSession.access_token,
       })
       .then(function (response) {
-        console.log(response);
         setModalText(response.data.message);
       })
       .catch(function (error) {
@@ -64,7 +63,6 @@ const StoreService = {
     }
   },
   requestComponent: async function (name, link, quantity, setModalText) {
-    console.log(name + link + quantity);
     let obj = {
       name: name,
       link: link,
@@ -76,11 +74,9 @@ const StoreService = {
         token: supabaseClient.auth.currentSession.access_token,
       })
       .then(function (response) {
-        console.log(response);
         setModalText(response.data.message);
       })
       .catch(function (error) {
-        console.log(error.response);
         setModalText(error.response.data.message);
       });
   },

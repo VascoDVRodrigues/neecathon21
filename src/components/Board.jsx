@@ -30,14 +30,12 @@ function Board(props) {
                 GameServices.getTeams(setTeams);
                 GameServices.getTime(setTime);
                 GameServices.updateKey(setKey);
-                console.log('Change received!', payload)
-        }).subscribe((status)=>{console.log('subscribe',status);})
+        }).subscribe()
         supabaseClient
             .from('Houses')
             .on('*', payload => {
                 GameServices.getHouses(setHouses);
-                console.log('Change received!', payload)
-        }).subscribe((status)=>{console.log('subscribe',status);})
+        }).subscribe()
     },[]);
 
     
@@ -153,7 +151,7 @@ function Board(props) {
                             teams.flatMap((item) =>{
                                 //if( item.IDTEAM !== 1&&item.IDTEAM !==0){
                                 if(item.IDTEAM !==0){
-                                    return <option value={item.IDTEAM}>{item.NAME}</option> 
+                                    return <option key={item.NAME} value={item.IDTEAM}>{item.NAME}</option> 
                                 }else{
                                     return null
                                 }

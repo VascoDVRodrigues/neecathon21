@@ -58,16 +58,6 @@ const ProfileServices = {
         throw error;
       }
       if (data) {
-        console.log(data);
-        // var multiple = 0;
-        // var teamID = data[0].IDTEAM;
-        // for (const component of data) {
-        //   if (teamID !== component.IDTEAM) {
-        //     multiple = 1;
-        //     break;
-        //   }
-        // }
-        // if (multiple === 0) {
         data.sort((a, b) => {
           return a.IDCOMPONENT - b.IDCOMPONENT;
         });
@@ -76,7 +66,6 @@ const ProfileServices = {
         for (const component of data) {
           if (prevID === component.IDCOMPONENT) {
             array[array.length - 1].QUANTITY += component.QUANTITY;
-            //console.log(prevID, component);
           } else {
             var item = { QUANTITY: component.QUANTITY };
             try {
@@ -98,65 +87,6 @@ const ProfileServices = {
           }
         }
         setComponents(array);
-        // } else {
-        //   console.log(data);
-        //   data.sort((a, b) => {
-        //     return a.IDTEAM - b.IDTEAM;
-        //   });
-
-        //   var prevTeamID = 0;
-        //   var componentsByTeam = [];
-        //   var team = [];
-        //   data.forEach((component) => {
-        //     if (prevTeamID === 0) {
-        //       team = [];
-        //       team.push(component);
-        //       prevTeamID = component.IDTEAM;
-        //       //console.log(team);
-        //     } else if (prevTeamID === component.IDTEAM) {
-        //       team.push(component);
-        //     } else if (prevTeamID !== component.IDTEAM) {
-        //       prevTeamID = component.IDTEAM;
-        //       componentsByTeam.push(team);
-        //       team = [];
-        //     }
-        //   });
-        //   //console.log(componentsByTeam);
-        //   var final = [];
-        //   componentsByTeam.map(async (team) => {
-        //     team.sort((a, b) => {
-        //       return a.IDCOMPONENT - b.IDCOMPONENT;
-        //     });
-        //     var prevID = -1;
-        //     var array = [];
-        //     for (const component of team) {
-        //       if (prevID === component.IDCOMPONENT) {
-        //         array[array.length - 1].QUANTITY += component.QUANTITY;
-        //         //console.log(prevID, component);
-        //       } else {
-        //         var item = { QUANTITY: component.QUANTITY };
-        //         try {
-        //           let { data, error, status } = await supabaseClient.from("Components").select(`*`).eq("IDCOMPONENT", component.IDCOMPONENT);
-
-        //           if (error && status !== 406) {
-        //             throw error;
-        //           }
-        //           if (data) {
-        //             item.NAME = data[0].NAME;
-        //             item.IDTEAM = component.IDTEAM;
-        //             array.push(item);
-        //           }
-        //         } catch (error) {
-        //           alert(error.message);
-        //         }
-        //         prevID = component.IDCOMPONENT;
-        //       }
-        //     }
-        //     final.push(array);
-        //   });
-        //   console.log(final);
-        //   setComponents(final);
-        // }
       }
     } catch (error) {
       alert(error.message);
@@ -212,13 +142,11 @@ const ProfileServices = {
         var prevTeamID = 0;
         var componentsByTeam = [];
         var team = [];
-        // console.log(data);
         data.forEach((component) => {
           if (prevTeamID === 0) {
             team = [];
             team.push(component);
             prevTeamID = component.IDTEAM;
-            //console.log(team);
           } else if (prevTeamID === component.IDTEAM) {
             team.push(component);
           } else if (prevTeamID !== component.IDTEAM) {
@@ -228,7 +156,6 @@ const ProfileServices = {
           }
         });
         componentsByTeam.push(team);
-        //console.log(componentsByTeam);
         var final = [];
         componentsByTeam.map(async (team) => {
           team.sort((a, b) => {
@@ -239,7 +166,6 @@ const ProfileServices = {
           for (const component of team) {
             if (prevID === component.IDCOMPONENT) {
               array[array.length - 1].QUANTITY += component.QUANTITY;
-              //console.log(prevID, component);
             } else {
               var item = { QUANTITY: component.QUANTITY };
               try {
@@ -263,7 +189,6 @@ const ProfileServices = {
           }
           final.push(array);
         });
-        console.log(final);
         setAllComponents(final);
       }
     } catch (error) {
@@ -279,14 +204,12 @@ const ProfileServices = {
       })
       .then(function (response) {
         setModal(false);
-        console.log(response);
       })
       .catch(function (error) {
         console.log(error.response);
       });
   },
   transferCoins: function (teamGivingId, teamRecievingId, Amount) {
-    console.log(teamGivingId + teamRecievingId + Amount);
     if (Amount.length) {
       axios
         .post("http://backend.neecist.xyz/transferCoins", {
@@ -295,9 +218,7 @@ const ProfileServices = {
           plusTeam: teamRecievingId,
           value: Amount,
         })
-        .then(function (response) {
-          console.log(response);
-        })
+        .then(function (response) {})
         .catch(function (error) {
           console.log(error.response);
         });
