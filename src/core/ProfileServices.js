@@ -102,7 +102,6 @@ const ProfileServices = {
       }
 
       if (data) {
-        console.log(data);
         setTeamHouses(data);
       }
     } catch (error) {
