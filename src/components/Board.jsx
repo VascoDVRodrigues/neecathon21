@@ -17,6 +17,7 @@ function Board(props) {
     const [modalText, setModalText] = useState("")
     const [modalShow, setModalShow] = useState(false)
     const [houses, setHouses] = useState(undefined);
+    
 
     useEffect(() => { 
         GameServices.getPerson(setAdmin)
@@ -28,7 +29,7 @@ function Board(props) {
             .on('*', payload => {
                 GameServices.getTeams(setTeams);
                 GameServices.getTime(setTime);
-                setKey(key+1)
+                GameServices.updateKey(setKey);
                 console.log('Change received!', payload)
         }).subscribe((status)=>{console.log('subscribe',status);})
         supabaseClient
@@ -38,6 +39,8 @@ function Board(props) {
                 console.log('Change received!', payload)
         }).subscribe((status)=>{console.log('subscribe',status);})
     },[]);
+
+    
     
    function getHouseColor(id){
         let teamId = null

@@ -109,15 +109,9 @@ const GameServices = {
         console.log(error.response);
       });
   },
-  addBold: function (string) {
-    var splited = string.split(/[*]{2}|\/\*\*/gm);
-    var final = [];
-    for (let index = 0; index < splited.length; index++) {
-      if (index % 2 === 0) {
-      } else {
-        final.push(splited[index]);
-      }
-    }
+  updateKey: function (setKey) {
+    setKey(Math.random());
+    console.log("heres");
   },
 };
 
