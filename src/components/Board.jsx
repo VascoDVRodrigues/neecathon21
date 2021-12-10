@@ -97,10 +97,10 @@ function Board(props) {
                     </Modal.Footer>
                 </Modal>
                 <Row>
-                    <Col>
+                    <Col style={{maxWidth: "24vw"}}>
                     <Leaderboard teams={teams} /> 
                     </Col>
-                    <Col md="5">
+                    <Col md="5" style={{width: "45%"}} className="mx-auto">
                 <CardGroup>
                     <BoardCell IMAGE={houses[6].IMAGES} color = {getHouseColor(6)}/>
                     <BoardCell IMAGE={houses[7].IMAGES} color = {getHouseColor(7)}/>
@@ -113,30 +113,34 @@ function Board(props) {
 
                 <CardGroup>
                     <BoardCell IMAGE={houses[5].IMAGES} color = {getHouseColor(5)}/>
-                    <Col> </Col>
-                    <Col> </Col>
-                    <Col> </Col>
-                    <Col> </Col>
-                    <Col> </Col>
+                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{margin:"2px"}}></Col>
                     <BoardCell IMAGE={houses[13].IMAGES} color = {getHouseColor(13)}/>  
                 </CardGroup>
 
                 <CardGroup>
                     <BoardCell IMAGE={houses[4].IMAGES} color = {getHouseColor(4)}/>
-                    <Col></Col>
-                    <Col></Col>
-                    <Col></Col>
-                    <Col></Col>
-                    <Col></Col>
+                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{position:"relative"}}>
+                        <div style={{position:"absolute"}}>
+                            <img alt="monopoly pug" style={{width:"170%", transform: "translateX(-100%) translateY(-50%)"}} src="https://cdn.discordapp.com/attachments/866354544544055346/918863735051931668/PugMonopolyGuy_5.png"></img>
+                        </div>
+                    </Col>
+                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{margin:"2px"}}></Col>
                     <BoardCell IMAGE={houses[14].IMAGES} color = {getHouseColor(14)}/>
                 </CardGroup>  
 
                 <CardGroup>
                     <BoardCell IMAGE={houses[3].IMAGES} color = {getHouseColor(3)}/>
-                    <Col></Col>
-                    <Col></Col>
-                    <Col className="my-auto">{admin?
-                    <div>
+                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{position:"relative"}}>{admin?
+                    <div style={{position:"absolute", width:"max-content", left:"50%",transform:"translateX(-50%) translateY(25%)"}}>
                         <Form.Select id="teamPlayingId" aria-label="Equipa a jogar">
                             {
                             teams.flatMap((item) =>{
@@ -149,30 +153,34 @@ function Board(props) {
                             })
                             }
                         </Form.Select>
-                        <Button onClick={()=>GameServices.rollDice(document.getElementById("teamPlayingId").value, setModalShow, setModalText)} variant="primary">Roll</Button>
+                        <Button className="mt-1" style={{width:"100%"}}onClick={()=>GameServices.rollDice(document.getElementById("teamPlayingId").value, setModalShow, setModalText)} variant="primary">Roll</Button>
                     </div>:null}</Col>
-                    <Col></Col>
-                    <Col></Col>
+                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{margin:"2px"}}></Col>
                     <BoardCell IMAGE={houses[15].IMAGES} color = {getHouseColor(15)}/>
                 </CardGroup>
 
                 <CardGroup>
                     <BoardCell IMAGE={houses[2].IMAGES} color = {getHouseColor(2)}/>
-                    <Col></Col>
-                    <Col></Col>
-                    <Col></Col>
-                    <Col></Col>
-                    <Col></Col>
+                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{position:"relative"}}>
+                        <div style={{position:"absolute"}}>
+                            <img alt="monopoly pug" style={{width:"170%", transform: "translateX(70%) translateY(25%) scale(-1, 1)"}} src="https://cdn.discordapp.com/attachments/866354544544055346/918869527440265286/PugRena_2.png"></img>
+                        </div>
+                    </Col>
+                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{margin:"2px"}}></Col>
                     <BoardCell IMAGE={houses[16].IMAGES} color = {getHouseColor(16)}/>
                 </CardGroup>
 
                 <CardGroup>
                     <BoardCell IMAGE={houses[1].IMAGES} color = {getHouseColor(1)}/>
-                    <Col></Col>
-                    <Col></Col>
-                    <Col></Col>
-                    <Col></Col>
-                    <Col></Col>
+                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{margin:"2px"}}></Col>
+                    <Col style={{margin:"2px"}}></Col>
                     <BoardCell IMAGE={houses[17].IMAGES} color = {getHouseColor(17)}/>
                 </CardGroup>
                 
@@ -186,7 +194,7 @@ function Board(props) {
                     <BoardCell IMAGE={houses[18].IMAGES} color = {getHouseColor(18)}/>
                 </CardGroup>
                 </Col>
-                <Col> 
+                <Col style={{maxWidth: "24vw"}}> 
                     <Card>
                         <Card.Body> 
                             <Card.Title>Time until next play</Card.Title>

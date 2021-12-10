@@ -21,7 +21,7 @@ import { Card} from "react-bootstrap"
 function BoardCell(props) {
     if(props.color === "#ffffff"){
         return (
-            <Card style={{margin:"4px"}}>
+            <Card style={{margin:"2px"}}>
                 <Card.Img src={props.IMAGE}/>
             </Card>     
         );
@@ -29,8 +29,8 @@ function BoardCell(props) {
     let border = "solid 4px " + props.color
     return (
         
-        <Card style={{border:border}}>
-            <Card.Img src={props.IMAGE}/>
+        <Card style={{margin:"2px", height: "fit-content"}}>
+            <Card.Img style={{border:border}} src={props.IMAGE}/>
         </Card>     
     );
 }

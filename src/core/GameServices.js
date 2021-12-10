@@ -78,14 +78,13 @@ const GameServices = {
               <Button
                 onClick={() => {
                   GameServices.buyHouse(response.data.teamID);
-                  console.log("boas");
                 }}
               >
                 Buy
               </Button>,
             ]);
           } else {
-            setModalText(modalText);
+            setModalText(<div dangerouslySetInnerHTML={{ __html: modalText }} />);
           }
 
           setModalShow(true);
@@ -109,6 +108,16 @@ const GameServices = {
       .catch(function (error) {
         console.log(error.response);
       });
+  },
+  addBold: function (string) {
+    var splited = string.split(/[*]{2}|\/\*\*/gm);
+    var final = [];
+    for (let index = 0; index < splited.length; index++) {
+      if (index % 2 === 0) {
+      } else {
+        final.push(splited[index]);
+      }
+    }
   },
 };
 
