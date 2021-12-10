@@ -95,33 +95,15 @@ const ProfileServices = {
 
   getTeamHouses: async function (setTeamHouses) {
     try {
-      let { data, error, status } = await supabaseClient.from("Houses|Team").select(`*`);
+      let { data, error, status } = await supabaseClient.from("Houses").select(`*`);
 
       if (error && status !== 406) {
         throw error;
       }
+
       if (data) {
-        var array = [];
-        for (const house of data) {
-          var item = { IDHOUSE: house.IDHOUSE, NAME: "", COLOR: "" };
-          try {
-            let { data, error, status } = await supabaseClient.from("Houses").select(`*`).eq("IDHOUSE", house.IDHOUSE);
-
-            if (error && status !== 406) {
-              throw error;
-            }
-
-            if (data) {
-              item.NAME = data[0].NAME;
-              item.COLOR = data[0].COLOR;
-
-              array.push(item);
-            }
-          } catch (error) {
-            alert(error.message);
-          }
-        }
-        setTeamHouses(array);
+        console.log(data);
+        setTeamHouses(data);
       }
     } catch (error) {
       alert(error.message);

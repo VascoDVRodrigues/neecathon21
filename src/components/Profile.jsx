@@ -83,6 +83,10 @@ function componentsList() {
             </Container>      
         );
     }else{
+        var housesArray = teamHouses.flatMap(house =>{
+            if(house.IDTEAM !== team[0].IDTEAM) return [];
+            return house;
+        })
     return(
         <Container fluid="lg">
             <Modal show={modal} onHide={()=>{setModalText("");setModal(false)}}>
@@ -219,7 +223,7 @@ function componentsList() {
                     <Card >
                             <Card.Header as="h5">Lista de Casas: </Card.Header>
                             <ListGroup as="ul" variant="flush" style={{maxHeight: '48vh', marginBottom: '10px', overflow: "auto"}}>
-                            {teamHouses === undefined?null:teamHouses.map(House => (
+                            {housesArray === undefined?null:housesArray.map(House => (
                                     <ListGroup.Item key={House.NAME} as="li" style={{backgroundColor: House.COLOR}}>{House.NAME}</ListGroup.Item>
                             ))}
 
