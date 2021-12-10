@@ -1,4 +1,5 @@
 import supabaseClient from "../utils/supabaseClient";
+import axios from "axios";
 
 const ProfileServices = {
   getPerson: async function (setAdmin) {
@@ -188,6 +189,21 @@ const ProfileServices = {
     } catch (error) {
       alert(error.message);
     }
+  },
+
+  changeImage: function (imageURL, setModal) {
+    axios
+      .post("http://backend.neecist.xyz/changeImage", {
+        token: supabaseClient.auth.currentSession.access_token,
+        imageURL: imageURL,
+      })
+      .then(function (response) {
+        setModal(false);
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error.response);
+      });
   },
 };
 
