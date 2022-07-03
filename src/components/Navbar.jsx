@@ -20,7 +20,7 @@ export default function MyNav() {
           <NavDropdown align="end" style={{color: "#ffffff"}} title="Minha Equipa">
             <NavDropdown.Item href="/profile">Perfil da Equipa</NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item onClick={()=>supabaseClient.auth.signOut()} href="http://localhost:3000/">Logout</NavDropdown.Item>
+            <NavDropdown.Item onClick={()=>supabaseClient.auth.signOut()} href="http://neecathon.neecist.xyz/">Logout</NavDropdown.Item>
           </NavDropdown>
         </Navbar.Collapse>
       

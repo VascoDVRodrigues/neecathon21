@@ -7,7 +7,7 @@ function Leaderboard(props) {
     
     
     teams = teams.flatMap((team) =>{
-        //if( team.IDTEAM === 1){return []}
+        if( team.IDTEAM === 1){return []}
         return team;
     })
     teams.sort((a,b) => a.IDTEAM - b.IDTEAM);

@@ -150,7 +150,7 @@ function Board(props) {
                             {
                             teams.flatMap((item) =>{
                                 //if( item.IDTEAM !== 1&&item.IDTEAM !==0){
-                                if(item.IDTEAM !==0){
+                                if(item.IDTEAM !==0 && item.IDTEAM !== 1){
                                     return <option key={item.NAME} value={item.IDTEAM}>{item.NAME}</option> 
                                 }else{
                                     return null
